@@ -1,6 +1,7 @@
 package com.techchallenge.msparkingmeter.application.builder.parkingcontrol;
 
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
+import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
 
 public class ParkingControlDomainEntityInputBuilder {
 
@@ -20,7 +21,7 @@ public class ParkingControlDomainEntityInputBuilder {
         return this;
     }
 
-    public ParkingControlDomainEntityInputBuilder withPeriodType(com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity periodType) {
+    public ParkingControlDomainEntityInputBuilder withPeriodType(ParkingControlPeriodTypeEntity periodType) {
         this.parkingControlDomainEntityInput.setPeriodType(periodType);
         return this;
     }

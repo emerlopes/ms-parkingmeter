@@ -5,25 +5,25 @@ import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity
 
 import java.time.LocalDateTime;
 
-public class parkingControlEntityBuilder {
+public class ParkingControlEntityBuilder {
 
     private final ParkingControlEntity parkingControlEntity;
 
-    public parkingControlEntityBuilder() {
+    public ParkingControlEntityBuilder() {
         this.parkingControlEntity = new ParkingControlEntity();
     }
 
-    public parkingControlEntityBuilder withStartTime(LocalDateTime startTime) {
+    public ParkingControlEntityBuilder withStartTime(LocalDateTime startTime) {
         this.parkingControlEntity.setStartTime(startTime);
         return this;
     }
 
-    public parkingControlEntityBuilder withDurationInMinutes(Integer durationInMinutes) {
+    public ParkingControlEntityBuilder withDurationInMinutes(Integer durationInMinutes) {
         this.parkingControlEntity.setDurationInMinutes(durationInMinutes);
         return this;
     }
 
-    public parkingControlEntityBuilder withPeriodType(ParkingControlPeriodTypeEntity periodType) {
+    public ParkingControlEntityBuilder withPeriodType(ParkingControlPeriodTypeEntity periodType) {
         this.parkingControlEntity.setPeriodType(periodType);
         return this;
     }

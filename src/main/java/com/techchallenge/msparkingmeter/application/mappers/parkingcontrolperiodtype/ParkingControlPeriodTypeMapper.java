@@ -46,6 +46,18 @@ public class ParkingControlPeriodTypeMapper {
         return outputs;
     }
 
+    public static ParkingControlPeriodTypeEntity mapFromOutputToParkingControlPeriodTypeEntity(
+            ParkingControlPeriodTypeDomainEntityOutput output) {
+
+        final var entity = new ParkingControlPeriodTypeEntityBuilder()
+                .withPeriodType(output.getPeriodType())
+                .build();
+
+        entity.setParkingControlPeriodId(output.getParkingControlPeriodId());
+
+        return entity;
+    }
+
     public static ParkingControlPeriodTypeEntity mapToParkingControlPeriodTypeEntity(
             ParkingControlPeriodTypeDomainEntityInput input) {
 
