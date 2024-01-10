@@ -11,13 +11,16 @@ import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 public class ParkingControlMapper {
 
     public static ParkingControlDomainEntityInput mapToParkingControlDomainEntityInput(
+            UUID externalDriverId,
             Optional<Integer> durationInMinutes) {
 
         return new ParkingControlDomainEntityInputBuilder()
+                .withExternalDriverId(externalDriverId)
                 .withStartTime(LocalDateTime.now())
                 .withDurationInMinutes(durationInMinutes.orElse(0))
                 .build();
@@ -28,6 +31,7 @@ public class ParkingControlMapper {
 
         return new ParkingControlDomainEntityOutputBuilder()
                 .withParkingControlId(entity.getParkingControlId())
+                .withExternalDriverId(entity.getExternalDriverId())
                 .withStartTime(entity.getStartTime())
                 .withDurationInMinutes(entity.getDurationInMinutes())
                 .withPeriodType(entity.getPeriodType())
@@ -38,6 +42,7 @@ public class ParkingControlMapper {
             ParkingControlDomainEntityInput input) {
 
         return new ParkingControlEntityBuilder()
+                .withExternalDriverId(input.getExternalDriverId())
                 .withStartTime(input.getStartTime())
                 .withDurationInMinutes(input.getDurationInMinutes())
                 .withPeriodType(input.getPeriodType())

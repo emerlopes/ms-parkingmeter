@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/parking-control")
@@ -27,12 +28,13 @@ public class ParkingControlController {
         this.executeFindParkingControlPeriodTypeByIdUseCase = executeFindParkingControlPeriodTypeByIdUseCase;
     }
 
-    @PostMapping("/{periodTypeId}")
+    @PostMapping("/{externalDriverId}/{periodTypeId}")
     public ResponseEntity<?> saveParkingControl(
+            @PathVariable UUID externalDriverId,
             @PathVariable Long periodTypeId,
             @RequestParam(value = "duration_in_minutes", required = false) Optional<Integer> durationInMinutes) {
 
-        final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(durationInMinutes);
+        final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(externalDriverId, durationInMinutes);
         final var inputWithPeriodType = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityInput(periodTypeId);
 
         final var parkingControlPeriodTypeOutput = executeFindParkingControlPeriodTypeByIdUseCase.execute(inputWithPeriodType);

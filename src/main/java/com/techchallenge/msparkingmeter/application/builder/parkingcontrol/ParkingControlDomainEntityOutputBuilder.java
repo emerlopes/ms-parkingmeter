@@ -4,6 +4,7 @@ import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingCont
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ParkingControlDomainEntityOutputBuilder {
 
@@ -15,6 +16,11 @@ public class ParkingControlDomainEntityOutputBuilder {
 
     public ParkingControlDomainEntityOutputBuilder withParkingControlId(Long parkingControlId) {
         this.parkingControlDomainEntityOutput.setParkingControlId(parkingControlId);
+        return this;
+    }
+
+    public ParkingControlDomainEntityOutputBuilder withExternalDriverId(UUID externalDriverId) {
+        this.parkingControlDomainEntityOutput.setExternalDriverId(externalDriverId);
         return this;
     }
 

@@ -5,12 +5,16 @@ import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 public class ParkingControlDomainEntityOutput {
 
     @JsonProperty("parking_control_id")
     private Long parkingControlId;
+
+    @JsonProperty("external_driver_id")
+    private UUID externalDriverId;
 
     @JsonProperty("start_time")
     private LocalDateTime startTime;
