@@ -4,15 +4,15 @@ import com.techchallenge.msparkingmeter.domain.entity.parkingcontrolperiodtype.P
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrolperiodtype.ParkingControlPeriodTypeDomainEntityOutput;
 import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrolperiodtype.IParkingControlPeriodTypeDomainService;
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
-import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteSavePeriodTypeUseCase;
+import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteSaveParkingControlPeriodTypeUseCase;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExecuteSavePeriodTypeUseCaseImpl implements IExecuteSavePeriodTypeUseCase {
+public class ExecuteSaveParkingControlPeriodTypeUseCaseImpl implements IExecuteSaveParkingControlPeriodTypeUseCase {
 
     private final IParkingControlPeriodTypeDomainService iParkingControlPeriodTypeDomainService;
 
-    public ExecuteSavePeriodTypeUseCaseImpl(IParkingControlPeriodTypeDomainService iParkingControlPeriodTypeDomainService) {
+    public ExecuteSaveParkingControlPeriodTypeUseCaseImpl(IParkingControlPeriodTypeDomainService iParkingControlPeriodTypeDomainService) {
         this.iParkingControlPeriodTypeDomainService = iParkingControlPeriodTypeDomainService;
     }
 

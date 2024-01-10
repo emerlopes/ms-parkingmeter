@@ -2,7 +2,7 @@ package com.techchallenge.msparkingmeter.application.entrypoints.rest.parkingcon
 
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrolperiodtype.ParkingControlPeriodTypeMapper;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteFindAllParkingControlPeriodTypeUseCase;
-import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteSavePeriodTypeUseCase;
+import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteSaveParkingControlPeriodTypeUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/parking-control-period-type")
 public class ParkingControlPeriodTypeController {
 
-    private final IExecuteSavePeriodTypeUseCase executeSavePeriodTypeUseCase;
+    private final IExecuteSaveParkingControlPeriodTypeUseCase executeSavePeriodTypeUseCase;
     private final IExecuteFindAllParkingControlPeriodTypeUseCase executeFindAllParkingControlPeriodTypeUseCase;
 
-    public ParkingControlPeriodTypeController(IExecuteSavePeriodTypeUseCase executeSavePeriodTypeUseCase, IExecuteFindAllParkingControlPeriodTypeUseCase executeFindAllParkingControlPeriodTypeUseCase) {
+    public ParkingControlPeriodTypeController(IExecuteSaveParkingControlPeriodTypeUseCase executeSavePeriodTypeUseCase, IExecuteFindAllParkingControlPeriodTypeUseCase executeFindAllParkingControlPeriodTypeUseCase) {
         this.executeSavePeriodTypeUseCase = executeSavePeriodTypeUseCase;
         this.executeFindAllParkingControlPeriodTypeUseCase = executeFindAllParkingControlPeriodTypeUseCase;
     }

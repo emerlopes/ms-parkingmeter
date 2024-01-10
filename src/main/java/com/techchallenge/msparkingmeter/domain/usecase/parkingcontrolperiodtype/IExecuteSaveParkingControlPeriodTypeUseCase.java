@@ -5,6 +5,6 @@ import com.techchallenge.msparkingmeter.domain.entity.parkingcontrolperiodtype.P
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.shared.IExecuteArgs;
 
-public interface IExecuteSavePeriodTypeUseCase extends IExecuteArgs<
+public interface IExecuteSaveParkingControlPeriodTypeUseCase extends IExecuteArgs<
         CustomData<ParkingControlPeriodTypeDomainEntityOutput>, ParkingControlPeriodTypeDomainEntityInput> {
 }
