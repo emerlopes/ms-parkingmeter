@@ -8,6 +8,8 @@ import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingCon
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
 import com.techchallenge.msparkingmeter.infrastructure.msdrivers.IDriversClient;
+import com.techchallenge.msparkingmeter.infrastructure.mspayments.IPaymentsClient;
+import com.techchallenge.msparkingmeter.infrastructure.mspayments.dto.PaymentOptionTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,11 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
 
     private final IParkingControlDomainService parkingControlDomainService;
 
-    public ExecuteSaveParkingControlUseCaseImpl(IParkingControlDomainService parkingControlDomainService) {
+    private final IPaymentsClient paymentsClient;
+
+    public ExecuteSaveParkingControlUseCaseImpl(IParkingControlDomainService parkingControlDomainService, IPaymentsClient paymentsClient) {
         this.parkingControlDomainService = parkingControlDomainService;
+        this.paymentsClient = paymentsClient;
     }
 
     @Override
@@ -33,6 +38,19 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
             if (durationInMinutes == null || durationInMinutes == 0) {
                 throw new ParkingControlValidationException("Duration in minutes is required when period type is fixed");
             }
+
+            final var paymentOption = paymentsClient.findPaymentOptionByExternalDriverId(input.getExternalDriverId());
+
+            if (paymentOption.getData() == null) {
+                throw new ParkingControlValidationException("Payment option not found");
+            }
+
+            final var paymentOptionType = paymentOption.getData().getPaymentOptionType().getPaymentOptionType();
+
+            if (paymentOptionType.equals(PaymentOptionTypeEnum.CREDIT_CARD) || paymentOptionType.equals(PaymentOptionTypeEnum.DEBIT_CARD)) {
+                throw new ParkingControlValidationException("The fixed parking period is only available for payments via PIX, please update your payment method.");
+            }
+
         }
 
         if (Objects.equals(periodTypeId, PeriodTypeEnum.VARIABLE.getValue())) {

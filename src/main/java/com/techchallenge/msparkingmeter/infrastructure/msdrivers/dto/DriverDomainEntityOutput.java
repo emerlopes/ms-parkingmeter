@@ -11,12 +11,10 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DriverDomainEntityOutput {
 
-    @JsonProperty("external_id")
     private UUID externalId;
 
     private String name;
     private int age;
 
-    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 }

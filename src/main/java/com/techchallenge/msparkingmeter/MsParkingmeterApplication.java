@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients({"com.techchallenge.msparkingmeter.infrastructure.msdrivers"})
+@EnableFeignClients({"com.techchallenge.msparkingmeter.infrastructure.*"})
 public class MsParkingmeterApplication {
 
     public static void main(String[] args) {
