@@ -10,4 +10,6 @@ public interface IParkingControlPeriodTypeDomainService {
     ParkingControlPeriodTypeDomainEntityOutput saveParkingControlPeriodType(ParkingControlPeriodTypeDomainEntityInput input);
 
     List<ParkingControlPeriodTypeDomainEntityOutput> findAllParkingControlPeriodType();
+
+    ParkingControlPeriodTypeDomainEntityOutput findParkingControlPeriodTypeById(ParkingControlPeriodTypeDomainEntityInput id);
 }

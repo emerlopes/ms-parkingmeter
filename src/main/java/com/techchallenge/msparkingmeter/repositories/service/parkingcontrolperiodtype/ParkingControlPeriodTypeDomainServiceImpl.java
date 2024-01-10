@@ -32,4 +32,10 @@ public class ParkingControlPeriodTypeDomainServiceImpl implements IParkingContro
 
         return ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntitiesOutput(entities);
     }
+
+    @Override
+    public ParkingControlPeriodTypeDomainEntityOutput findParkingControlPeriodTypeById(ParkingControlPeriodTypeDomainEntityInput input) {
+        final var entity = parkingControlPeriodTypeRepository.findById(input.getPeriodType().getValue());
+        return ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityOutput(entity.get());
+    }
 }
