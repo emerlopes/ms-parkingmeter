@@ -4,18 +4,22 @@ import com.techchallenge.msparkingmeter.application.builder.parkingcontrol.Parki
 import com.techchallenge.msparkingmeter.application.builder.parkingcontrol.ParkingControlDomainEntityOutputBuilder;
 import com.techchallenge.msparkingmeter.application.builder.parkingcontrol.ParkingControlEntityBuilder;
 import com.techchallenge.msparkingmeter.application.entrypoints.rest.parkingcontrol.dto.ParkingControlDTO;
+import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlEntity;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 public class ParkingControlMapper {
 
     public static ParkingControlDomainEntityInput mapToParkingControlDomainEntityInput(
-            ParkingControlDTO dto) {
+            Optional<Integer> durationInMinutes) {
 
         return new ParkingControlDomainEntityInputBuilder()
-                .withStartTime(dto.getStartTime())
-                .withDurationInMinutes(dto.getDurationInMinutes())
+                .withStartTime(LocalDateTime.now())
+                .withDurationInMinutes(durationInMinutes.orElse(0))
                 .build();
     }
 

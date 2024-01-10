@@ -3,6 +3,8 @@ package com.techchallenge.msparkingmeter.application.builder.parkingcontrol;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
 
+import java.time.LocalDateTime;
+
 public class ParkingControlDomainEntityInputBuilder {
 
     private final ParkingControlDomainEntityInput parkingControlDomainEntityInput;
@@ -11,7 +13,7 @@ public class ParkingControlDomainEntityInputBuilder {
         this.parkingControlDomainEntityInput = new ParkingControlDomainEntityInput();
     }
 
-    public ParkingControlDomainEntityInputBuilder withStartTime(java.time.LocalDateTime startTime) {
+    public ParkingControlDomainEntityInputBuilder withStartTime(LocalDateTime startTime) {
         this.parkingControlDomainEntityInput.setStartTime(startTime);
         return this;
     }

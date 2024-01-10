@@ -3,14 +3,15 @@ package com.techchallenge.msparkingmeter.application.entrypoints.rest.parkingcon
 import com.techchallenge.msparkingmeter.application.entrypoints.rest.parkingcontrol.dto.ParkingControlDTO;
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrol.ParkingControlMapper;
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrolperiodtype.ParkingControlPeriodTypeMapper;
+import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteFindParkingControlPeriodTypeByIdUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/parking-control")
@@ -26,12 +27,17 @@ public class ParkingControlController {
         this.executeFindParkingControlPeriodTypeByIdUseCase = executeFindParkingControlPeriodTypeByIdUseCase;
     }
 
-    @PostMapping
-    public ResponseEntity<?> saveParkingControl(@RequestBody ParkingControlDTO parkingControlDTO) {
-        final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(parkingControlDTO);
-        final var inputWithPeriodType = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityInput(parkingControlDTO.getPeriodType());
+    @PostMapping("/{periodTypeId}")
+    public ResponseEntity<?> saveParkingControl(
+            @PathVariable Long periodTypeId,
+            @RequestParam(value = "duration_in_minutes", required = false) Optional<Integer> durationInMinutes) {
+
+        final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(durationInMinutes);
+        final var inputWithPeriodType = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityInput(periodTypeId);
+
         final var parkingControlPeriodTypeOutput = executeFindParkingControlPeriodTypeByIdUseCase.execute(inputWithPeriodType);
         final var periodTypeEntity = ParkingControlPeriodTypeMapper.mapFromOutputToParkingControlPeriodTypeEntity(parkingControlPeriodTypeOutput.getData());
+
         input.setPeriodType(periodTypeEntity);
 
         final var output = executeSaveParkingControlUseCase.execute(input);
