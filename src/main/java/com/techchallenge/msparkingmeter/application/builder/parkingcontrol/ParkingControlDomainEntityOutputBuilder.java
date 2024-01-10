@@ -1,0 +1,39 @@
+package com.techchallenge.msparkingmeter.application.builder.parkingcontrol;
+
+import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
+import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
+
+import java.time.LocalDateTime;
+
+public class ParkingControlDomainEntityOutputBuilder {
+
+    private final ParkingControlDomainEntityOutput parkingControlDomainEntityOutput;
+
+    public ParkingControlDomainEntityOutputBuilder() {
+        this.parkingControlDomainEntityOutput = new ParkingControlDomainEntityOutput();
+    }
+
+    public ParkingControlDomainEntityOutputBuilder withParkingControlId(Long parkingControlId) {
+        this.parkingControlDomainEntityOutput.setParkingControlId(parkingControlId);
+        return this;
+    }
+
+    public ParkingControlDomainEntityOutputBuilder withStartTime(LocalDateTime startTime) {
+        this.parkingControlDomainEntityOutput.setStartTime(startTime);
+        return this;
+    }
+
+    public ParkingControlDomainEntityOutputBuilder withDurationInMinutes(Integer durationInMinutes) {
+        this.parkingControlDomainEntityOutput.setDurationInMinutes(durationInMinutes);
+        return this;
+    }
+
+    public ParkingControlDomainEntityOutputBuilder withPeriodType(ParkingControlPeriodTypeEntity periodType) {
+        this.parkingControlDomainEntityOutput.setPeriodType(periodType);
+        return this;
+    }
+
+    public ParkingControlDomainEntityOutput build() {
+        return this.parkingControlDomainEntityOutput;
+    }
+}
