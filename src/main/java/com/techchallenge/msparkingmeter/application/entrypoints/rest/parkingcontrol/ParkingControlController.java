@@ -6,6 +6,8 @@ import com.techchallenge.msparkingmeter.application.mappers.parkingcontrolperiod
 import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteFindParkingControlPeriodTypeByIdUseCase;
+import com.techchallenge.msparkingmeter.infrastructure.msdrivers.IDriversClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,16 @@ public class ParkingControlController {
 
     private final IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase;
 
-    public ParkingControlController(IExecuteSaveParkingControlUseCase executeSaveParkingControlUseCase, IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase) {
+
+    private final IDriversClient driversClient;
+
+    public ParkingControlController(
+            IExecuteSaveParkingControlUseCase executeSaveParkingControlUseCase,
+            IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase, IDriversClient driversClient) {
 
         this.executeSaveParkingControlUseCase = executeSaveParkingControlUseCase;
         this.executeFindParkingControlPeriodTypeByIdUseCase = executeFindParkingControlPeriodTypeByIdUseCase;
+        this.driversClient = driversClient;
     }
 
     @PostMapping("/{externalDriverId}/{periodTypeId}")
@@ -33,6 +41,8 @@ public class ParkingControlController {
             @PathVariable UUID externalDriverId,
             @PathVariable Long periodTypeId,
             @RequestParam(value = "duration_in_minutes", required = false) Optional<Integer> durationInMinutes) {
+
+        final var drivers = driversClient.findAllDrivers();
 
         final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(externalDriverId, durationInMinutes);
         final var inputWithPeriodType = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityInput(periodTypeId);

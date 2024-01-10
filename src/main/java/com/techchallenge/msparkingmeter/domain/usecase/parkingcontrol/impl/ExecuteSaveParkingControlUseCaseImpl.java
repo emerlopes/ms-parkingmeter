@@ -7,6 +7,8 @@ import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingCont
 import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingControlDomainService;
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
+import com.techchallenge.msparkingmeter.infrastructure.msdrivers.IDriversClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
