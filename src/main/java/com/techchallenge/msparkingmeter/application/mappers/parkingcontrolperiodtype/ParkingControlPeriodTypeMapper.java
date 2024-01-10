@@ -8,6 +8,9 @@ import com.techchallenge.msparkingmeter.domain.entity.parkingcontrolperiodtype.P
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrolperiodtype.ParkingControlPeriodTypeDomainEntityOutput;
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParkingControlPeriodTypeMapper {
 
 
@@ -26,6 +29,21 @@ public class ParkingControlPeriodTypeMapper {
                 .withParkingControlPeriodId(entity.getParkingControlPeriodId())
                 .withPeriodType(entity.getPeriodType())
                 .build();
+    }
+
+    public static List<ParkingControlPeriodTypeDomainEntityOutput> mapToParkingControlPeriodTypeDomainEntitiesOutput(List<ParkingControlPeriodTypeEntity> entity) {
+        List<ParkingControlPeriodTypeDomainEntityOutput> outputs = new ArrayList<>();
+
+        for (ParkingControlPeriodTypeEntity paymentOptionEntity : entity) {
+            final var output = new ParkingControlPeriodTypeDomainEntityOutputBuilder()
+                    .withParkingControlPeriodId(paymentOptionEntity.getParkingControlPeriodId())
+                    .withPeriodType(paymentOptionEntity.getPeriodType())
+                    .build();
+
+            outputs.add(output);
+        }
+
+        return outputs;
     }
 
     public static ParkingControlPeriodTypeEntity mapToParkingControlPeriodTypeEntity(

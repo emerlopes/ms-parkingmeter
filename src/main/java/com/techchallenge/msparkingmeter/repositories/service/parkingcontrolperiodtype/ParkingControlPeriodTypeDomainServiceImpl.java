@@ -7,6 +7,8 @@ import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrolperiodtype.I
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.repository.IParkingControlPeriodTypeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ParkingControlPeriodTypeDomainServiceImpl implements IParkingControlPeriodTypeDomainService {
 
@@ -20,6 +22,14 @@ public class ParkingControlPeriodTypeDomainServiceImpl implements IParkingContro
     public ParkingControlPeriodTypeDomainEntityOutput saveParkingControlPeriodType(ParkingControlPeriodTypeDomainEntityInput input) {
         final var entity = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeEntity(input);
         final var entitySaved = parkingControlPeriodTypeRepository.save(entity);
+
         return ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityOutput(entitySaved);
+    }
+
+    @Override
+    public List<ParkingControlPeriodTypeDomainEntityOutput> findAllParkingControlPeriodType() {
+        final var entities = parkingControlPeriodTypeRepository.findAll();
+
+        return ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntitiesOutput(entities);
     }
 }
