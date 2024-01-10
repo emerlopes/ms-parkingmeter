@@ -10,5 +10,6 @@ public class ParkingControlPeriodTypeDomainEntityOutput {
     @JsonProperty("parking_control_period_id")
     private Long parkingControlPeriodId;
 
+    @JsonProperty("period_type")
     private PeriodTypeEnum periodType;
 }

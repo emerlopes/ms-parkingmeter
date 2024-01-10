@@ -1,0 +1,9 @@
+package com.techchallenge.msparkingmeter.domain.sevice.parkingcontrolperiodtype;
+
+import com.techchallenge.msparkingmeter.domain.entity.parkingcontrolperiodtype.ParkingControlPeriodTypeDomainEntityInput;
+import com.techchallenge.msparkingmeter.domain.entity.parkingcontrolperiodtype.ParkingControlPeriodTypeDomainEntityOutput;
+
+public interface IParkingControlPeriodTypeDomainService {
+
+    ParkingControlPeriodTypeDomainEntityOutput saveParkingControlPeriodType(ParkingControlPeriodTypeDomainEntityInput input);
+}
