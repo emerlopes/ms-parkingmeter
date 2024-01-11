@@ -11,5 +11,5 @@ public class SchedulerInput {
     private UUID externalDriverId;
     private String phoneNumber;
     private LocalDateTime dateTimeNow;
-    private Long durationInMinutes;
+    private Integer durationInMinutes;
 }

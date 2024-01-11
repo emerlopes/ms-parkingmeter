@@ -60,18 +60,16 @@ public class SchedulerDomainServiceImpl implements ISchedulerDomainService {
         final var phoneNumber = input.getPhoneNumber();
         final var inputJson = String.format("{\"phone_number\":\"%s\"}", phoneNumber);
 
-        final var target = new Target()
+        return new Target()
                 .withRoleArn(properties.getSchedulerRoleArn())
                 .withArn(properties.getSqsDriverNotificationArn())
                 .withInput(inputJson);
-
-        return target;
     }
 
     private CreateScheduleRequest createScheduleRequest(
             UUID externalDriverId, Target target, String scheduleExpression) {
         CreateScheduleRequest scheduleRequest = new CreateScheduleRequest()
-                .withName(externalDriverId.toString())
+                .withName("external-driver-id-" + externalDriverId.toString())
                 .withScheduleExpression(scheduleExpression)
                 .withDescription(externalDriverId.toString())
                 .withFlexibleTimeWindow(new FlexibleTimeWindow().withMode("OFF"))

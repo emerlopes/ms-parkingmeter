@@ -12,9 +12,8 @@ import java.util.UUID;
 public class DriverDomainEntityOutput {
 
     private UUID externalId;
-
     private String name;
     private int age;
-
+    private String phoneNumber;
     private LocalDateTime createdAt;
 }

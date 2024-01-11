@@ -22,8 +22,6 @@ public class ParkingControlController {
 
     private final IExecuteSaveParkingControlUseCase executeSaveParkingControlUseCase;
     private final IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase;
-
-
     private final IDriversClient driversClient;
 
     public ParkingControlController(
@@ -40,13 +38,7 @@ public class ParkingControlController {
             @PathVariable UUID externalDriverId,
             @PathVariable Long periodTypeId,
             @RequestParam(value = "duration_in_minutes", required = false) Optional<Integer> durationInMinutes) {
-
-        final var driver = driversClient.findDriverById(externalDriverId);
-
-        if (driver.getData() == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Driver not found");
-        }
-
+        
         final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(externalDriverId, durationInMinutes);
         final var inputWithPeriodType = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityInput(periodTypeId);
 

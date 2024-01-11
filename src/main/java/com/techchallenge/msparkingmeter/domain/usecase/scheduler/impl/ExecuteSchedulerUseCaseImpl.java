@@ -5,8 +5,6 @@ import com.techchallenge.msparkingmeter.domain.sevice.scheduler.ISchedulerDomain
 import com.techchallenge.msparkingmeter.domain.usecase.scheduler.IExecuteSchedulerUseCase;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 public class ExecuteSchedulerUseCaseImpl implements IExecuteSchedulerUseCase {
 
@@ -18,8 +16,6 @@ public class ExecuteSchedulerUseCaseImpl implements IExecuteSchedulerUseCase {
 
     @Override
     public Void execute(SchedulerInput input) {
-
-        final var dateTimeNow = input.getDateTimeNow();
 
         schedulerDomainService.createNotificationSchedule(input);
         return null;
