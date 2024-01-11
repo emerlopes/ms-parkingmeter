@@ -1,4 +1,4 @@
-package com.techchallenge.msparkingmeter.repositories.service.parkingcontrolperiodtype;
+package com.techchallenge.msparkingmeter.repositories.msparkingcontrolperiodtype;
 
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrolperiodtype.ParkingControlPeriodTypeMapper;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrolperiodtype.ParkingControlPeriodTypeDomainEntityInput;

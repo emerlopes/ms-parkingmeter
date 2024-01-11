@@ -1,4 +1,4 @@
-package com.techchallenge.msparkingmeter.repositories.service.parkingcontrol;
+package com.techchallenge.msparkingmeter.repositories.msparkingcontrol;
 
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrol.ParkingControlMapper;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
