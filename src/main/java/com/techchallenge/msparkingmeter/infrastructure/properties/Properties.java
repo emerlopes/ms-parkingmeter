@@ -21,15 +21,4 @@ public class Properties {
     @Value("${twilio.messageServiceSid}")
     private String messageServiceSid;
 
-    // SNS
-    @Value("${aws.sns.drivernotification.arn}")
-    private String snsDriverNotificationArn;
-
-    // SQS
-    @Value("${aws.sqs.drivernotification.arn}")
-    private String sqsDriverNotificationArn;
-
-    // ROLE
-    @Value("${aws.role.scheduler.arn}")
-    private String schedulerRoleArn;
 }
