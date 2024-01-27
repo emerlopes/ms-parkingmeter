@@ -2,10 +2,10 @@ package com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entit
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -36,4 +36,7 @@ public class ParkingControlEntity {
     @ManyToOne
     @JoinColumn(name = "parking_control_period_id")
     private ParkingControlPeriodTypeEntity periodType;
+
+    @Column(name = "total_amount_payable")
+    private BigDecimal totalAmountPayable;
 }
