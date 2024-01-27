@@ -9,9 +9,9 @@ import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingCon
 import com.techchallenge.msparkingmeter.domain.sevice.scheduler.IDriverNotificationDomainService;
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
-import com.techchallenge.msparkingmeter.infrastructure.msdrivers.IDriversClient;
-import com.techchallenge.msparkingmeter.infrastructure.mspayments.IPaymentsClient;
-import com.techchallenge.msparkingmeter.infrastructure.mspayments.dto.PaymentOptionTypeEnum;
+import com.techchallenge.msparkingmeter.repositories.msdrivers.IDriversClient;
+import com.techchallenge.msparkingmeter.repositories.mspayments.IPaymentsClient;
+import com.techchallenge.msparkingmeter.repositories.mspayments.dto.PaymentOptionTypeEnum;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

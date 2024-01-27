@@ -1,4 +1,4 @@
-package com.techchallenge.msparkingmeter.infrastructure.mspayments.dto;
+package com.techchallenge.msparkingmeter.repositories.mspayments.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

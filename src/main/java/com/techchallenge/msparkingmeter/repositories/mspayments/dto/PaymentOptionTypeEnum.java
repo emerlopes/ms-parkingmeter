@@ -1,4 +1,4 @@
-package com.techchallenge.msparkingmeter.infrastructure.mspayments.dto;
+package com.techchallenge.msparkingmeter.repositories.mspayments.dto;
 
 import java.util.HashMap;
 import java.util.Map;

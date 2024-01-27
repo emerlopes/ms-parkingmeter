@@ -1,20 +1,16 @@
 package com.techchallenge.msparkingmeter.application.entrypoints.rest.parkingcontrol;
 
-import com.techchallenge.msparkingmeter.application.entrypoints.rest.parkingcontrol.dto.ParkingControlDTO;
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrol.ParkingControlMapper;
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrolperiodtype.ParkingControlPeriodTypeMapper;
-import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteFindParkingControlByIdUseCase;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteUpdateParkingControlUseCase;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteFindParkingControlPeriodTypeByIdUseCase;
-import com.techchallenge.msparkingmeter.infrastructure.msdrivers.IDriversClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.techchallenge.msparkingmeter.repositories.msdrivers.IDriversClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 

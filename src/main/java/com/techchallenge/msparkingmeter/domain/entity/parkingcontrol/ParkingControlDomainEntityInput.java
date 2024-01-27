@@ -1,7 +1,6 @@
 package com.techchallenge.msparkingmeter.domain.entity.parkingcontrol;
 
-import com.techchallenge.msparkingmeter.domain.shared.CustomData;
-import com.techchallenge.msparkingmeter.infrastructure.msdrivers.dto.DriverDomainEntityOutput;
+import com.techchallenge.msparkingmeter.repositories.msdrivers.dto.DriverDomainEntityOutput;
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
 import lombok.Data;
 

@@ -1,8 +1,7 @@
-package com.techchallenge.msparkingmeter.infrastructure.mspayments;
+package com.techchallenge.msparkingmeter.repositories.mspayments;
 
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
-import com.techchallenge.msparkingmeter.infrastructure.msdrivers.dto.DriverDomainEntityOutput;
-import com.techchallenge.msparkingmeter.infrastructure.mspayments.dto.PaymentOptionDomainEntityOutput;
+import com.techchallenge.msparkingmeter.repositories.mspayments.dto.PaymentOptionDomainEntityOutput;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
