@@ -48,4 +48,16 @@ public class ParkingControlMapper {
                 .withPeriodType(input.getPeriodType())
                 .build();
     }
+
+    public static ParkingControlEntity mapToParkingControlEntity(
+            ParkingControlDomainEntityOutput input) {
+
+        return new ParkingControlEntityBuilder()
+                .withExternalDriverId(input.getExternalDriverId())
+                .withStartTime(input.getStartTime())
+                .withDurationInMinutes(input.getDurationInMinutes())
+                .withPeriodType(input.getPeriodType())
+                .build();
+    }
+
 }

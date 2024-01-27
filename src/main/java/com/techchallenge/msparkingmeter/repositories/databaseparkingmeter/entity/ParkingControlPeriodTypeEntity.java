@@ -8,6 +8,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "tb05_parking_control_period_type")
 public class ParkingControlPeriodTypeEntity {
 
     @Id

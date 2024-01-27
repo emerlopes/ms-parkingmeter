@@ -12,6 +12,15 @@ public class Properties {
     @Value("${application.local.zone.sp}")
     private String localZoneSp;
 
+    @Value("${twilio.accountSid}")
+    private String accountSid;
+
+    @Value("${twilio.authToken}")
+    private String authToken;
+
+    @Value("${twilio.messageServiceSid}")
+    private String messageServiceSid;
+
     // SNS
     @Value("${aws.sns.drivernotification.arn}")
     private String snsDriverNotificationArn;

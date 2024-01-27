@@ -4,7 +4,9 @@ import com.techchallenge.msparkingmeter.application.entrypoints.rest.parkingcont
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrol.ParkingControlMapper;
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrolperiodtype.ParkingControlPeriodTypeMapper;
 import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
+import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteFindParkingControlByIdUseCase;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
+import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteUpdateParkingControlUseCase;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrolperiodtype.IExecuteFindParkingControlPeriodTypeByIdUseCase;
 import com.techchallenge.msparkingmeter.infrastructure.msdrivers.IDriversClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,18 @@ public class ParkingControlController {
 
     private final IExecuteSaveParkingControlUseCase executeSaveParkingControlUseCase;
     private final IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase;
+    private final IExecuteUpdateParkingControlUseCase executeUpdateParkingControlUseCase;
+    private final IExecuteFindParkingControlByIdUseCase executeFindParkingControlByIdUseCase;
     private final IDriversClient driversClient;
 
     public ParkingControlController(
             IExecuteSaveParkingControlUseCase executeSaveParkingControlUseCase,
-            IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase, IDriversClient driversClient) {
+            IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase, IExecuteUpdateParkingControlUseCase executeUpdateParkingControlUseCase, IExecuteFindParkingControlByIdUseCase executeFindParkingControlByIdUseCase, IDriversClient driversClient) {
 
         this.executeSaveParkingControlUseCase = executeSaveParkingControlUseCase;
         this.executeFindParkingControlPeriodTypeByIdUseCase = executeFindParkingControlPeriodTypeByIdUseCase;
+        this.executeUpdateParkingControlUseCase = executeUpdateParkingControlUseCase;
+        this.executeFindParkingControlByIdUseCase = executeFindParkingControlByIdUseCase;
         this.driversClient = driversClient;
     }
 
@@ -38,7 +44,7 @@ public class ParkingControlController {
             @PathVariable UUID externalDriverId,
             @PathVariable Long periodTypeId,
             @RequestParam(value = "duration_in_minutes", required = false) Optional<Integer> durationInMinutes) {
-        
+
         final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(externalDriverId, durationInMinutes);
         final var inputWithPeriodType = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityInput(periodTypeId);
 
@@ -50,5 +56,18 @@ public class ParkingControlController {
         final var output = executeSaveParkingControlUseCase.execute(input);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(output);
+    }
+
+    @PutMapping("/{parkingControlId}")
+    public ResponseEntity<?> terminateParking(
+            @PathVariable Long parkingControlId) {
+
+        // TODO: Consultar o id do estacionamento
+        final var parkingControl = executeFindParkingControlByIdUseCase.execute(parkingControlId);
+        final var parkingControlEntity = ParkingControlMapper.mapToParkingControlEntity(parkingControl.getData());
+
+        final var output = executeUpdateParkingControlUseCase.execute(parkingControlEntity);
+
+        return ResponseEntity.status(HttpStatus.OK).body(output);
     }
 }

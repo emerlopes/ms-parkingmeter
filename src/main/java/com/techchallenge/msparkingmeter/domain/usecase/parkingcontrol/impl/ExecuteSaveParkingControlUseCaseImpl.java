@@ -6,28 +6,23 @@ import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingCont
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
 import com.techchallenge.msparkingmeter.domain.entity.scheduler.SchedulerInput;
 import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingControlDomainService;
-import com.techchallenge.msparkingmeter.domain.sevice.scheduler.ISchedulerDomainService;
+import com.techchallenge.msparkingmeter.domain.sevice.scheduler.IDriverNotificationDomainService;
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
 import com.techchallenge.msparkingmeter.infrastructure.msdrivers.IDriversClient;
 import com.techchallenge.msparkingmeter.infrastructure.mspayments.IPaymentsClient;
 import com.techchallenge.msparkingmeter.infrastructure.mspayments.dto.PaymentOptionTypeEnum;
-import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParkingControlUseCase {
 
     private final IParkingControlDomainService parkingControlDomainService;
 
-    private final ISchedulerDomainService schedulerDomainService;
+    private final IDriverNotificationDomainService schedulerDomainService;
 
     private final IPaymentsClient paymentsClient;
 
@@ -35,7 +30,7 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
 
     private final static int MINIMUM_DURATION_IN_MINUTES = 60;
 
-    public ExecuteSaveParkingControlUseCaseImpl(IParkingControlDomainService parkingControlDomainService, ISchedulerDomainService schedulerDomainService, IPaymentsClient paymentsClient, IDriversClient driversClient) {
+    public ExecuteSaveParkingControlUseCaseImpl(IParkingControlDomainService parkingControlDomainService, IDriverNotificationDomainService schedulerDomainService, IPaymentsClient paymentsClient, IDriversClient driversClient) {
         this.parkingControlDomainService = parkingControlDomainService;
         this.schedulerDomainService = schedulerDomainService;
         this.paymentsClient = paymentsClient;
@@ -46,6 +41,7 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
     public CustomData<ParkingControlDomainEntityOutput> execute(ParkingControlDomainEntityInput input) {
         final var externalDriverId = input.getExternalDriverId();
         final var periodTypeId = input.getPeriodType().getParkingControlPeriodId();
+        final var periodTypeMessage = input.getPeriodType().getPeriodType().getMessage();
         final var durationInMinutes = input.getDurationInMinutes();
 
         final var driver = driversClient.findDriverById(externalDriverId);
@@ -85,7 +81,9 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
 
         final var output = parkingControlDomainService.saveParkingControl(input);
 
-        schedulerDomainService.createNotificationSchedule(this.createSchedulerInput(input));
+        final var schedulerInput = this.createSchedulerInput(input, periodTypeMessage);
+
+        schedulerDomainService.createScheduledNotification(schedulerInput);
 
         CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
         customData.setData(output);
@@ -93,12 +91,13 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
         return customData;
     }
 
-    private SchedulerInput createSchedulerInput(ParkingControlDomainEntityInput input) {
+    private SchedulerInput createSchedulerInput(ParkingControlDomainEntityInput input, String periodTypeMessage) {
         final var schedulerInput = new SchedulerInput();
         schedulerInput.setExternalDriverId(input.getExternalDriverId());
         schedulerInput.setPhoneNumber(input.getDriver().getPhoneNumber());
         schedulerInput.setDateTimeNow(LocalDateTime.now());
         schedulerInput.setDurationInMinutes(input.getDurationInMinutes());
+        schedulerInput.setMessage(periodTypeMessage);
 
         return schedulerInput;
     }

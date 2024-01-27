@@ -12,4 +12,5 @@ public class SchedulerInput {
     private String phoneNumber;
     private LocalDateTime dateTimeNow;
     private Integer durationInMinutes;
+    private String message;
 }

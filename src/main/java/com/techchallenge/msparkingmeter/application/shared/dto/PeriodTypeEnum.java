@@ -1,14 +1,19 @@
 package com.techchallenge.msparkingmeter.application.shared.dto;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public enum PeriodTypeEnum {
-    FIXED(1L, "Período Fixo"),
-    VARIABLE(2L, "Período Variável");
+    FIXED(1L, "Período Fixo", "Prezado motorista! Informamos que o período de estacionamento está prestes a se encerrar. Para evitar custos adicionais, solicitamos que renove ou encerre o estacionamento adequadamente. Lembre-se de que a não realização de um desses processos pode resultar em possíveis multas. Agradecemos pela sua atenção e colaboração."),
+    VARIABLE(2L, "Período Variável", "Atenção: Seu estacionamento será estendido automaticamente por mais uma hora, a menos que você o desligue manualmente.");
+
 
     private Long value;
     private String displayName;
+    private String message;
 
     private static final Map<Long, PeriodTypeEnum> BY_VALUE = new HashMap<>();
 
@@ -18,17 +23,10 @@ public enum PeriodTypeEnum {
         }
     }
 
-    PeriodTypeEnum(Long value, String displayName) {
+    PeriodTypeEnum(Long value, String displayName, String message) {
         this.value = value;
         this.displayName = displayName;
-    }
-
-    public Long getValue() {
-        return value;
-    }
-
-    public String getDisplayName() {
-        return displayName;
+        this.message = message;
     }
 
     public static PeriodTypeEnum valueOf(Long value) {
