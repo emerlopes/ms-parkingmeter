@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,4 +25,7 @@ public class ParkingControlDomainEntityOutput {
 
     @JsonProperty("period_type")
     private ParkingControlPeriodTypeEntity periodType;
+
+    @JsonProperty("value_to_be_paid")
+    private BigDecimal valueToBePaid;
 }

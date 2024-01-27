@@ -35,6 +35,7 @@ public class ParkingControlMapper {
                 .withStartTime(entity.getStartTime())
                 .withDurationInMinutes(entity.getDurationInMinutes())
                 .withPeriodType(entity.getPeriodType())
+                .withValueToBePaid(entity.getValueToBePaid())
                 .build();
     }
 
