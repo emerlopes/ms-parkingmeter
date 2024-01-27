@@ -31,6 +31,7 @@ dependencies {
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-scheduler', version: '1.12.633'
     
     implementation group: 'com.twilio.sdk', name: 'twilio', version: '9.14.1'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
