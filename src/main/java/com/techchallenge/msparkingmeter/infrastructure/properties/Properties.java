@@ -12,13 +12,11 @@ public class Properties {
     @Value("${application.local.zone.sp}")
     private String localZoneSp;
 
-    @Value("${twilio.accountSid}")
-    private String accountSid;
+    // HASHICORP
+    @Value("${hashicorp.client.id}")
+    private String hashicorpClientId;
 
-    @Value("${twilio.authToken}")
-    private String authToken;
-
-    @Value("${twilio.messageServiceSid}")
-    private String messageServiceSid;
+    @Value("${hashicorp.client.secret}")
+    private String hashicorpClientSecret;
 
 }
