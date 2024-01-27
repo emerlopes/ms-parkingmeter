@@ -10,12 +10,14 @@ import com.techchallenge.msparkingmeter.domain.sevice.scheduler.IDriverNotificat
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
 import com.techchallenge.msparkingmeter.repositories.msdrivers.IDriversClient;
+import com.techchallenge.msparkingmeter.repositories.msdrivers.dto.DriverDomainEntityOutput;
 import com.techchallenge.msparkingmeter.repositories.mspayments.IPaymentsClient;
 import com.techchallenge.msparkingmeter.repositories.mspayments.dto.PaymentOptionTypeEnum;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParkingControlUseCase {
@@ -43,14 +45,9 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
         final var periodTypeId = input.getPeriodType().getParkingControlPeriodId();
         final var periodTypeMessage = input.getPeriodType().getPeriodType().getMessage();
         final var durationInMinutes = input.getDurationInMinutes();
+        final var driver = this.findDriverById(externalDriverId);
 
-        final var driver = driversClient.findDriverById(externalDriverId);
-
-        if (driver.getData() == null) {
-            throw new ParkingControlValidationException("Driver not found");
-        }
-
-        input.setDriver(driver.getData());
+        input.setDriver(driver);
 
         if (periodTypeId.equals(PeriodTypeEnum.FIXED.getValue())) {
             if (durationInMinutes == null || durationInMinutes == 0) {
@@ -72,7 +69,6 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
             if (paymentOptionType.equals(PaymentOptionTypeEnum.CREDIT_CARD) || paymentOptionType.equals(PaymentOptionTypeEnum.DEBIT_CARD)) {
                 throw new ParkingControlValidationException("The fixed parking period is only available for payments via PIX, please update your payment method.");
             }
-
         }
 
         if (Objects.equals(periodTypeId, PeriodTypeEnum.VARIABLE.getValue())) {
@@ -83,12 +79,23 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
 
         final var schedulerInput = this.createSchedulerInput(input, periodTypeMessage);
 
-        schedulerDomainService.createScheduledNotification(schedulerInput);
+//        schedulerDomainService.createScheduledNotification(schedulerInput);
 
         CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
         customData.setData(output);
 
         return customData;
+    }
+
+    private DriverDomainEntityOutput findDriverById(UUID externalDriverId) {
+        final var driver = driversClient.findDriverById(externalDriverId);
+
+        if (driver.getData() == null) {
+            throw new ParkingControlValidationException("Driver not found");
+        }
+
+        return driver.getData();
+
     }
 
     private SchedulerInput createSchedulerInput(ParkingControlDomainEntityInput input, String periodTypeMessage) {
