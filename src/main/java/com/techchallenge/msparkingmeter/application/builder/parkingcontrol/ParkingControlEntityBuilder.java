@@ -25,13 +25,13 @@ public class ParkingControlEntityBuilder {
         return this;
     }
 
-    public ParkingControlEntityBuilder withStartTime(LocalDateTime startTime) {
-        this.parkingControlEntity.setParkingStartTime(startTime);
+    public ParkingControlEntityBuilder withParkingStartTime(LocalDateTime parkingStartTime) {
+        this.parkingControlEntity.setParkingStartTime(parkingStartTime);
         return this;
     }
 
-    public ParkingControlEntityBuilder withEndTime(LocalDateTime endTime) {
-        this.parkingControlEntity.setParkingEndTime(endTime);
+    public ParkingControlEntityBuilder withParkingEndTime(LocalDateTime parkingEndTime) {
+        this.parkingControlEntity.setParkingEndTime(parkingEndTime);
         return this;
     }
 
