@@ -76,7 +76,6 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
 
         System.out.println(output);
 
-        // TODO: Atualizar a entidade: ParkingControlEntity com o valor final a ser pago e a data final do estacionamento
         final var entitySaved = parkingControlDomainService.saveParkingControl(domainEntity);
 
         // TODO: Criar um novo atributo para relacionar com o id recibo de pagamento
