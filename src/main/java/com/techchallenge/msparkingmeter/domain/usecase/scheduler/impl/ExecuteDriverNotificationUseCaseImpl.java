@@ -15,9 +15,7 @@ public class ExecuteDriverNotificationUseCaseImpl implements IExecuteDriverNotif
     }
 
     @Override
-    public Void execute(SchedulerInput input) {
-
+    public void execute(SchedulerInput input) {
         schedulerDomainService.createScheduledNotification(input);
-        return null;
     }
 }
