@@ -37,4 +37,8 @@ public enum PeriodTypeEnum {
         }
         return periodType;
     }
+
+    public static boolean isFixed(Long value) {
+        return value == FIXED.getValue();
+    }
 }
