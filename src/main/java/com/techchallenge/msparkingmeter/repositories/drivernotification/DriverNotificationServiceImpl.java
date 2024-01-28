@@ -32,8 +32,7 @@ public class DriverNotificationServiceImpl implements IDriverNotificationDomainS
         final var scheduledTime = this.createScheduledTime(input);
         final var phoneNumber = this.formatPhoneNumber(input.getPhoneNumber());
 
-        final var message = Message.creator(
-                        new PhoneNumber(phoneNumber),
+        Message.creator(new PhoneNumber(phoneNumber),
                         secrets.getMessageServiceSid(),
                         input.getMessage())
                 .setSendAt(
