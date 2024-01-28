@@ -35,6 +35,9 @@ public class ParkingControlDomainEntityOutput {
     @JsonProperty("final_value_to_be_paid")
     private BigDecimal finalValueToBePaid;
 
+    @JsonProperty("payment_receipt_id")
+    private Long paymentReceiptId;
+
     @JsonProperty("period_type")
     private ParkingControlPeriodTypeEntity periodType;
 

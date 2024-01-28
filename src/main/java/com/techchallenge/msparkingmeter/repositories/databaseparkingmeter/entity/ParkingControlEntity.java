@@ -1,5 +1,6 @@
 package com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity;
 
+import com.techchallenge.msparkingmeter.repositories.mspayments.dto.ParkingPaymentReceiptDomainEntityOutput;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -33,7 +34,7 @@ public class ParkingControlEntity {
     @Column(name = "requested_minutes")
     private Integer requestedMinutes;
 
-    @Column(name= "real_minutes")
+    @Column(name = "real_minutes")
     private Integer realMinutes;
 
     @Column(name = "predicted_value_to_be_paid")
@@ -41,6 +42,9 @@ public class ParkingControlEntity {
 
     @Column(name = "final_value_to_be_paid")
     private BigDecimal finalValueToBePaid;
+
+    @Column(name = "payment_receipt_id")
+    private Long paymentReceiptId;
 
     @ManyToOne
     @JoinColumn(name = "parking_control_period_id")

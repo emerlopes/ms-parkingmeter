@@ -36,6 +36,7 @@ public class ParkingControlMapper {
                 .withRealMinutes(entity.getRealMinutes())
                 .withValueToBePaid(entity.getPredictedValueToBePaid())
                 .withFinalValueToBePaid(entity.getFinalValueToBePaid())
+                .withPaymentReceiptId(entity.getPaymentReceiptId())
                 .withPeriodType(entity.getPeriodType())
                 .build();
     }
@@ -64,6 +65,7 @@ public class ParkingControlMapper {
                 .withRealMinutes(input.getRealMinutes())
                 .withPredictedValueToBePaid(input.getPredictedValueToBePaid())
                 .withFinalValueToBePaid(input.getFinalValueToBePaid())
+                .withPaymentReceiptId(input.getPaymentReceiptId())
                 .withPeriodType(input.getPeriodType())
                 .build();
     }

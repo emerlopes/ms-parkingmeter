@@ -55,6 +55,11 @@ public class ParkingControlEntityBuilder {
         return this;
     }
 
+    public ParkingControlEntityBuilder withPaymentReceiptId(Long paymentReceiptId) {
+        this.parkingControlEntity.setPaymentReceiptId(paymentReceiptId);
+        return this;
+    }
+
     public ParkingControlEntityBuilder withPeriodType(ParkingControlPeriodTypeEntity periodType) {
         this.parkingControlEntity.setPeriodType(periodType);
         return this;

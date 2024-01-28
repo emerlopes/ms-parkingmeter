@@ -6,6 +6,8 @@ import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingCon
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteCalculationFinalAmountToBePaid;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteFindParkingControlByIdUseCase;
+import com.techchallenge.msparkingmeter.repositories.mspayments.IPaymentsClient;
+import com.techchallenge.msparkingmeter.repositories.mspayments.dto.ParkingPaymentReceiptDomainEntityInput;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,13 +19,15 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
 
     private final IExecuteFindParkingControlByIdUseCase executeFindParkingControlByIdUseCase;
     private final IParkingControlDomainService parkingControlDomainService;
+    private final IPaymentsClient paymentsClient;
     private static final BigDecimal FIXED_PARKING_PRICE = BigDecimal.valueOf(2.0);
     private static final BigDecimal VARIABLE_PARKING_PRICE = BigDecimal.valueOf(5.0);
 
     public ExecuteCalculationFinalAmountToBePaidImpl(IExecuteFindParkingControlByIdUseCase executeFindParkingControlByIdUseCase,
-                                                     IParkingControlDomainService parkingControlDomainService) {
+                                                     IParkingControlDomainService parkingControlDomainService, IPaymentsClient paymentsClient) {
         this.executeFindParkingControlByIdUseCase = executeFindParkingControlByIdUseCase;
         this.parkingControlDomainService = parkingControlDomainService;
+        this.paymentsClient = paymentsClient;
     }
 
     @Override
@@ -76,12 +80,24 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
 
         System.out.println(output);
 
-        final var entitySaved = parkingControlDomainService.saveParkingControl(domainEntity);
-
         // TODO: Criar um novo atributo para relacionar com o id recibo de pagamento
-        // TODO: Criar a tabela de recibo de pagamento
-        // TODO: Criar o endpoint para gerar o recibo de pagamento
         // TODO: Implementar a chamada para o endpoint de pagamento
+
+        final var paymentReceiptInput = ParkingPaymentReceiptDomainEntityInput
+                .builder()
+                .paymentDate(LocalDateTime.now())
+                .customerName("Teste")
+                .vehiclePlateNumber("ABC1234")
+                .paymentAmount(domainEntity.getFinalValueToBePaid())
+                .paymentMethod("CREDIT_CARD")
+                .build();
+
+
+        final var paymentReceiptOutput = paymentsClient.savePaymentReceipt(paymentReceiptInput);
+
+        domainEntity.setPaymentReceiptId(paymentReceiptOutput.getData().getReceiptNumber());
+
+        final var entitySaved = parkingControlDomainService.saveParkingControl(domainEntity);
 
         final CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
         customData.setData(entitySaved);

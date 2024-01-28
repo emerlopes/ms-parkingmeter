@@ -55,6 +55,11 @@ public class ParkingControlDomainEntityOutputBuilder {
         return this;
     }
 
+    public ParkingControlDomainEntityOutputBuilder withPaymentReceiptId(Long paymentReceiptId) {
+        this.parkingControlDomainEntityOutput.setPaymentReceiptId(paymentReceiptId);
+        return this;
+    }
+
     public ParkingControlDomainEntityOutputBuilder withPeriodType(ParkingControlPeriodTypeEntity periodType) {
         this.parkingControlDomainEntityOutput.setPeriodType(periodType);
         return this;
