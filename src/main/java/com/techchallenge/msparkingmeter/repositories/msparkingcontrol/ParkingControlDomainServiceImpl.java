@@ -23,4 +23,11 @@ public class ParkingControlDomainServiceImpl implements IParkingControlDomainSer
 
         return ParkingControlMapper.mapToParkingControlDomainEntityOutput(entitySaved);
     }
+
+    @Override
+    public ParkingControlDomainEntityOutput findParkingControlById(Long id) {
+        final var entity = ParkingControlRepository.findById(id).orElseThrow();
+
+        return ParkingControlMapper.mapToParkingControlDomainEntityOutput(entity);
+    }
 }
