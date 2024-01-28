@@ -15,6 +15,11 @@ public class ParkingControlEntityBuilder {
         this.parkingControlEntity = new ParkingControlEntity();
     }
 
+    public ParkingControlEntityBuilder withParkingControlId(Long parkingControlId) {
+        this.parkingControlEntity.setParkingControlId(parkingControlId);
+        return this;
+    }
+
     public ParkingControlEntityBuilder withExternalDriverId(UUID externalDriverId) {
         this.parkingControlEntity.setExternalDriverId(externalDriverId);
         return this;
@@ -25,6 +30,11 @@ public class ParkingControlEntityBuilder {
         return this;
     }
 
+    public ParkingControlEntityBuilder withEndTime(LocalDateTime endTime) {
+        this.parkingControlEntity.setEndTime(endTime);
+        return this;
+    }
+
     public ParkingControlEntityBuilder withDurationInMinutes(Integer durationInMinutes) {
         this.parkingControlEntity.setDurationInMinutes(durationInMinutes);
         return this;
@@ -32,6 +42,11 @@ public class ParkingControlEntityBuilder {
 
     public ParkingControlEntityBuilder withPredictedValueToBePaid(BigDecimal predictedValueToBePaid) {
         this.parkingControlEntity.setPredictedValueToBePaid(predictedValueToBePaid);
+        return this;
+    }
+
+    public ParkingControlEntityBuilder withFinalValueToBePaid(BigDecimal finalValueToBePaid) {
+        this.parkingControlEntity.setFinalValueToBePaid(finalValueToBePaid);
         return this;
     }
 

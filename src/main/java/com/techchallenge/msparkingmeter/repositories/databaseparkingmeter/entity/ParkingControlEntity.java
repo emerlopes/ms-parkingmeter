@@ -36,6 +36,9 @@ public class ParkingControlEntity {
     @Column(name = "predicted_value_to_be_paid")
     private BigDecimal predictedValueToBePaid;
 
+    @Column(name = "final_value_to_be_paid")
+    private BigDecimal finalValueToBePaid;
+
     @ManyToOne
     @JoinColumn(name = "parking_control_period_id")
     private ParkingControlPeriodTypeEntity periodType;
