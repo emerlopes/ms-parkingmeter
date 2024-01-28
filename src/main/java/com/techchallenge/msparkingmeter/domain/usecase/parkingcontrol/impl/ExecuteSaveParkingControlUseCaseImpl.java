@@ -8,7 +8,6 @@ import com.techchallenge.msparkingmeter.domain.entity.scheduler.SchedulerInput;
 import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingControlDomainService;
 import com.techchallenge.msparkingmeter.domain.sevice.scheduler.IDriverNotificationDomainService;
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
-import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteFixedCalculationPaymentParkingUseCase;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
 import com.techchallenge.msparkingmeter.repositories.msdrivers.IDriversClient;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
         this.schedulerDomainService = schedulerDomainService;
         this.driversClient = driversClient;
     }
-    
+
     @Override
     public CustomData<ParkingControlDomainEntityOutput> execute(ParkingControlDomainEntityInput input) {
 
