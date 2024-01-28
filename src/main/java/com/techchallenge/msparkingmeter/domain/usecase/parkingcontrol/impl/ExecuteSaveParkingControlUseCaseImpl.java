@@ -1,6 +1,7 @@
 package com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.impl;
 
 import com.techchallenge.msparkingmeter.application.exceptions.ParkingControlValidationException;
+import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.businessrules.composites.impl.ParkingmeterBusinessRulesValidatorCompositeImpl;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
@@ -46,7 +47,11 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
 
         final var schedulerInput = this.createSchedulerInput(input, periodTypeMessage);
 
-//        schedulerDomainService.createScheduledNotification(schedulerInput);
+        if (input.getPeriodType().getPeriodType().equals(PeriodTypeEnum.FIXED)) {
+            schedulerDomainService.createScheduledNotification(schedulerInput);
+        } else {
+            schedulerDomainService.notifyDriver(schedulerInput);
+        }
 
         CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
         customData.setData(output);

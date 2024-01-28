@@ -41,6 +41,19 @@ public class DriverNotificationServiceImpl implements IDriverNotificationDomainS
                 .create();
     }
 
+    @Override
+    public void notifyDriver(SchedulerInput input) {
+        final var secrets = hashicorpClientService.getHashiCorpSecret();
+        final var phoneNumber = this.formatPhoneNumber(input.getPhoneNumber());
+
+        Twilio.init(secrets.getAccountSid(), secrets.getAuthToken());
+
+        Message.creator(new PhoneNumber(phoneNumber),
+                        secrets.getMessageServiceSid(),
+                        input.getMessage())
+                .create();
+    }
+
     private LocalDateTime createScheduledTime(SchedulerInput input) {
         final var dateTimeNow = input.getDateTimeNow();
         final var durationInMinutes = input.getDurationInMinutes();
