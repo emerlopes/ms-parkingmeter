@@ -9,7 +9,7 @@ import java.util.Map;
 @Getter
 public enum PeriodTypeEnum {
     FIXED(1L, "Período Fixo", "Prezado motorista! Informamos que o período de estacionamento está prestes a se encerrar. Para evitar custos adicionais, solicitamos que renove ou encerre o estacionamento adequadamente. Lembre-se de que a não realização de um desses processos pode resultar em possíveis multas. Agradecemos pela sua atenção e colaboração."),
-    VARIABLE(2L, "Período Variável", "Atenção: Seu estacionamento será estendido automaticamente por mais uma hora, a menos que você o desligue manualmente.");
+    VARIABLE(2L, "Período Variável", "Atenção: Seu estacionamento será estendido automaticamente por mais uma hora, ao termino de uma hora fechada, a menos que você o desligue manualmente.");
 
 
     private Long value;
