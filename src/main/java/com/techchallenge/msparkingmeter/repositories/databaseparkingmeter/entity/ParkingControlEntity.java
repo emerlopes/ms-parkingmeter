@@ -25,10 +25,10 @@ public class ParkingControlEntity {
     private UUID externalDriverId;
 
     @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    private LocalDateTime parkingStartTime;
 
     @Column(name = "end_time")
-    private LocalDateTime endTime;
+    private LocalDateTime parkingEndTime;
 
     @Column(name = "duration_in_minutes")
     private Integer durationInMinutes;
