@@ -32,6 +32,7 @@ public class ParkingmeterBusinessRulesValidatorCompositeImpl implements Parkingm
 
         if (!isFixedPeriodType) {
             System.out.println("Period type is not fixed");
+            input.setDurationInMinutes(0);
             return true;
         }
 

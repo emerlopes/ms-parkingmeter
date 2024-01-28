@@ -44,22 +44,15 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
     @Override
     public CustomData<ParkingControlDomainEntityOutput> execute(ParkingControlDomainEntityInput input) {
 
-
         this.checkParkingmeterBusinessRules(input);
-
-        final var periodTypeId = input.getPeriodType().getParkingControlPeriodId();
-        final var periodTypeMessage = input.getPeriodType().getPeriodType().getMessage();
         this.findDriverById(input);
 
-        if (Objects.equals(periodTypeId, PeriodTypeEnum.VARIABLE.getValue())) {
-            input.setDurationInMinutes(0);
-        }
-
+        final var periodTypeMessage = input.getPeriodType().getPeriodType().getMessage();
         final var output = parkingControlDomainService.saveParkingControl(input);
 
         final var schedulerInput = this.createSchedulerInput(input, periodTypeMessage);
 
-        schedulerDomainService.createScheduledNotification(schedulerInput);
+//        schedulerDomainService.createScheduledNotification(schedulerInput);
 
         CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
         customData.setData(output);
