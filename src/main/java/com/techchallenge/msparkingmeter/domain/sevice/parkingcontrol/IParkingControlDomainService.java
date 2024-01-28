@@ -6,5 +6,7 @@ import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingCont
 public interface IParkingControlDomainService {
     ParkingControlDomainEntityOutput saveParkingControl(ParkingControlDomainEntityInput input);
 
+    ParkingControlDomainEntityOutput saveParkingControl(ParkingControlDomainEntityOutput input);
+
     ParkingControlDomainEntityOutput findParkingControlById(Long id);
 }
