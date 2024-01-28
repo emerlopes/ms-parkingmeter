@@ -20,6 +20,5 @@ public interface IPaymentsClient {
     @PostMapping("/api/payment-receipts")
     CustomData<ParkingPaymentReceiptDomainEntityOutput> savePaymentReceipt(ParkingPaymentReceiptDomainEntityInput input);
 
-
 }
 
