@@ -35,7 +35,7 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         final var output = executeFindParkingControlByIdUseCase.execute(parkingControlId);
         final var parkingControlPeriodType = output.getData().getPeriodType();
         final var parkingStartTime = output.getData().getParkingStartTime();
-        final var parkingEndTime = LocalDateTime.now().plusMinutes(189);
+        final var parkingEndTime = LocalDateTime.now();
         final var requestedMinutes = output.getData().getRequestedMinutes();
         final var realMinutes = Duration.between(parkingStartTime, parkingEndTime).toMinutes();
 
@@ -46,7 +46,7 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         if (!PeriodTypeEnum.isFixed(parkingControlPeriodType.getParkingControlPeriodId())) {
             System.out.println("Period type is not fixed");
 
-            final var chargedVariableHours = convertMinutesToHours((int) realMinutes);
+            final var chargedVariableHours = roundDownToHours((int) realMinutes);
 
             final var parkingPaymentAmount = VARIABLE_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedVariableHours));
 
@@ -57,13 +57,13 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         } else {
             System.out.println("Period type is fixed");
 
-            final var chargedFixedHours = convertMinutesToHours(requestedMinutes);
+            final var chargedFixedHours = roundUpToHours(requestedMinutes);
 
             var parkingPaymentAmount = BigDecimal.ZERO;
 
             if (realMinutes > requestedMinutes) {
                 System.out.println("Real duration is greater than fixed duration");
-                final var chargedVariableHours = convertMinutesToHours((int) realMinutes - requestedMinutes);
+                final var chargedVariableHours = roundUpToHours((int) realMinutes - requestedMinutes);
                 parkingPaymentAmount = FIXED_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedFixedHours))
                         .add(VARIABLE_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedVariableHours)));
                 System.out.println(parkingPaymentAmount);
@@ -104,8 +104,12 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         return customData;
     }
 
-    private Integer convertMinutesToHours(int durationInMinutes) {
-        return (int) Math.ceil(durationInMinutes / 60.0);
+    private Integer roundUpToHours(int minutes) {
+        return (int) Math.ceil(minutes / 60.0);
+    }
+
+    private Integer roundDownToHours(int minutes) {
+        return (int) Math.floor(minutes / 60.0);
     }
 }
 
