@@ -2,6 +2,7 @@ package com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.impl;
 
 import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
+import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.PaymentReceipt;
 import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingControlDomainService;
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteCalculationFinalAmountToBePaid;
@@ -35,9 +36,10 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         final var output = executeFindParkingControlByIdUseCase.execute(parkingControlId);
         final var parkingControlPeriodType = output.getData().getPeriodType();
         final var parkingStartTime = output.getData().getParkingStartTime();
-        final var parkingEndTime = LocalDateTime.now();
+        final var parkingEndTime = LocalDateTime.now().plusMinutes(80);
         final var requestedMinutes = output.getData().getRequestedMinutes();
         final var realMinutes = Duration.between(parkingStartTime, parkingEndTime).toMinutes();
+        var parkingTariff = BigDecimal.ZERO;
 
         final var domainEntity = output.getData();
         domainEntity.setParkingEndTime(parkingEndTime);
@@ -51,6 +53,8 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
             final var parkingPaymentAmount = VARIABLE_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedVariableHours));
 
             domainEntity.setFinalValueToBePaid(parkingPaymentAmount);
+
+            parkingTariff = VARIABLE_PARKING_PRICE;
 
             System.out.println(parkingPaymentAmount);
 
@@ -74,6 +78,8 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
 
             domainEntity.setFinalValueToBePaid(parkingPaymentAmount);
 
+            parkingTariff = FIXED_PARKING_PRICE;
+
             System.out.println(parkingPaymentAmount);
 
         }
@@ -95,6 +101,16 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         domainEntity.setPaymentReceiptId(paymentReceiptOutput.getData().getReceiptNumber());
 
         final var entitySaved = parkingControlDomainService.saveParkingControl(domainEntity);
+
+        final var paymentReceipy = PaymentReceipt.builder()
+                .parkingStartTime(parkingStartTime)
+                .parkingEndTime(parkingEndTime)
+                .parkingMinutes((int) realMinutes)
+                .parkingTariff(parkingTariff)
+                .totalPaymentAmount(domainEntity.getFinalValueToBePaid())
+                .build();
+
+        entitySaved.setPaymentReceipt(paymentReceipy);
 
         final CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
         customData.setData(entitySaved);

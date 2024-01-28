@@ -38,6 +38,9 @@ public class ParkingControlDomainEntityOutput {
     @JsonProperty("payment_receipt_id")
     private Long paymentReceiptId;
 
+    @JsonProperty("payment_receipt")
+    private PaymentReceipt paymentReceipt;
+
     @JsonProperty("period_type")
     private ParkingControlPeriodTypeEntity periodType;
 
