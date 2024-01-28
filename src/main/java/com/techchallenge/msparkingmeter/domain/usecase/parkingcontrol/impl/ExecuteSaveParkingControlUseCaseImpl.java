@@ -2,6 +2,7 @@ package com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.impl;
 
 import com.techchallenge.msparkingmeter.application.exceptions.ParkingControlValidationException;
 import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
+import com.techchallenge.msparkingmeter.domain.businessrules.composites.impl.ParkingmeterBusinessRulesValidatorCompositeImpl;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
 import com.techchallenge.msparkingmeter.domain.entity.scheduler.SchedulerInput;
@@ -12,7 +13,6 @@ import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSa
 import com.techchallenge.msparkingmeter.repositories.msdrivers.IDriversClient;
 import com.techchallenge.msparkingmeter.repositories.msdrivers.dto.DriverDomainEntityOutput;
 import com.techchallenge.msparkingmeter.repositories.mspayments.IPaymentsClient;
-import com.techchallenge.msparkingmeter.repositories.mspayments.dto.PaymentOptionTypeEnum;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,52 +24,32 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
 
     private final IParkingControlDomainService parkingControlDomainService;
 
-    private final IDriverNotificationDomainService schedulerDomainService;
+    private final ParkingmeterBusinessRulesValidatorCompositeImpl parkingmeterBusinessRulesValidator;
 
-    private final IPaymentsClient paymentsClient;
+    private final IDriverNotificationDomainService schedulerDomainService;
 
     private final IDriversClient driversClient;
 
-    private final static int MINIMUM_DURATION_IN_MINUTES = 60;
-
-    public ExecuteSaveParkingControlUseCaseImpl(IParkingControlDomainService parkingControlDomainService, IDriverNotificationDomainService schedulerDomainService, IPaymentsClient paymentsClient, IDriversClient driversClient) {
+    public ExecuteSaveParkingControlUseCaseImpl(IParkingControlDomainService parkingControlDomainService,
+                                                ParkingmeterBusinessRulesValidatorCompositeImpl parkingmeterBusinessRulesValidator,
+                                                IDriverNotificationDomainService schedulerDomainService,
+                                                IDriversClient driversClient) {
         this.parkingControlDomainService = parkingControlDomainService;
+        this.parkingmeterBusinessRulesValidator = parkingmeterBusinessRulesValidator;
         this.schedulerDomainService = schedulerDomainService;
-        this.paymentsClient = paymentsClient;
         this.driversClient = driversClient;
     }
 
+
     @Override
     public CustomData<ParkingControlDomainEntityOutput> execute(ParkingControlDomainEntityInput input) {
-        final var externalDriverId = input.getExternalDriverId();
+
+
+        this.checkParkingmeterBusinessRules(input);
+
         final var periodTypeId = input.getPeriodType().getParkingControlPeriodId();
         final var periodTypeMessage = input.getPeriodType().getPeriodType().getMessage();
-        final var durationInMinutes = input.getDurationInMinutes();
-        final var driver = this.findDriverById(externalDriverId);
-
-        input.setDriver(driver);
-
-        if (periodTypeId.equals(PeriodTypeEnum.FIXED.getValue())) {
-            if (durationInMinutes == null || durationInMinutes == 0) {
-                throw new ParkingControlValidationException("Duration in minutes is required when period type is fixed");
-            }
-
-            if (durationInMinutes < MINIMUM_DURATION_IN_MINUTES) {
-                throw new ParkingControlValidationException("The minimum duration for a fixed parking period is 60 minutes");
-            }
-
-            final var paymentOption = paymentsClient.findPaymentOptionByExternalDriverId(input.getExternalDriverId());
-
-            if (paymentOption.getData() == null) {
-                throw new ParkingControlValidationException("Payment option not found");
-            }
-
-            final var paymentOptionType = paymentOption.getData().getPaymentOptionType().getPaymentOptionType();
-
-            if (paymentOptionType.equals(PaymentOptionTypeEnum.CREDIT_CARD) || paymentOptionType.equals(PaymentOptionTypeEnum.DEBIT_CARD)) {
-                throw new ParkingControlValidationException("The fixed parking period is only available for payments via PIX, please update your payment method.");
-            }
-        }
+        this.findDriverById(input);
 
         if (Objects.equals(periodTypeId, PeriodTypeEnum.VARIABLE.getValue())) {
             input.setDurationInMinutes(0);
@@ -79,7 +59,7 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
 
         final var schedulerInput = this.createSchedulerInput(input, periodTypeMessage);
 
-//        schedulerDomainService.createScheduledNotification(schedulerInput);
+        schedulerDomainService.createScheduledNotification(schedulerInput);
 
         CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
         customData.setData(output);
@@ -87,14 +67,25 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
         return customData;
     }
 
-    private DriverDomainEntityOutput findDriverById(UUID externalDriverId) {
+    private void checkParkingmeterBusinessRules(ParkingControlDomainEntityInput input) {
+        final var isParkingmeterBusinessRules = parkingmeterBusinessRulesValidator.isValid(input);
+
+        if (!isParkingmeterBusinessRules) {
+            throw parkingmeterBusinessRulesValidator.getException();
+        }
+    }
+
+    private ParkingControlDomainEntityInput findDriverById(ParkingControlDomainEntityInput input) {
+        final var externalDriverId = input.getExternalDriverId();
         final var driver = driversClient.findDriverById(externalDriverId);
 
         if (driver.getData() == null) {
             throw new ParkingControlValidationException("Driver not found");
         }
 
-        return driver.getData();
+        input.setDriver(driver.getData());
+
+        return input;
 
     }
 
