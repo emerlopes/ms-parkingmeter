@@ -80,18 +80,15 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
 
         System.out.println(output);
 
-        // TODO: Criar um novo atributo para relacionar com o id recibo de pagamento
-        // TODO: Implementar a chamada para o endpoint de pagamento
-
         final var paymentReceiptInput = ParkingPaymentReceiptDomainEntityInput
                 .builder()
                 .paymentDate(LocalDateTime.now())
-                .customerName("Teste")
-                .vehiclePlateNumber("ABC1234")
                 .paymentAmount(domainEntity.getFinalValueToBePaid())
-                .paymentMethod("CREDIT_CARD")
                 .build();
 
+        final var paymentType = paymentsClient.findPaymentOptionByExternalDriverId(domainEntity.getExternalDriverId());
+
+        paymentReceiptInput.setPaymentMethod(paymentType.getData().getPaymentOptionType().getPaymentOptionType().getDisplayName());
 
         final var paymentReceiptOutput = paymentsClient.savePaymentReceipt(paymentReceiptInput);
 
@@ -101,6 +98,8 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
 
         final CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
         customData.setData(entitySaved);
+
+        System.out.println(paymentReceiptOutput);
 
         return customData;
     }
