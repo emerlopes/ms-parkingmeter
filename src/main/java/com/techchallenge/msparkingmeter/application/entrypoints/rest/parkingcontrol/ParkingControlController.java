@@ -41,8 +41,8 @@ public class ParkingControlController {
     @PostMapping("/{externalDriverId}")
     public ResponseEntity<?> saveParkingControl(
             @PathVariable UUID externalDriverId,
-            @RequestHeader(value = "period-type-id") Long periodTypeId,
-            @RequestHeader(value = "duration-in-minutes", required = false) Optional<Integer> durationInMinutes) {
+            @RequestParam(value = "period-type-id") Long periodTypeId,
+            @RequestParam(value = "requested-minutes", required = false) Optional<Integer> durationInMinutes) {
 
         final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(externalDriverId, durationInMinutes);
         final var inputWithPeriodType = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityInput(periodTypeId);
@@ -62,11 +62,6 @@ public class ParkingControlController {
             @PathVariable Long parkingControlId) {
 
         final var result = executeCalculationFinalAmountToBePaid.execute(parkingControlId);
-
-//        final var parkingControl = executeFindParkingControlByIdUseCase.execute(parkingControlId);
-//        final var parkingControlEntity = ParkingControlMapper.mapToParkingControlEntity(parkingControl.getData());
-//
-//        final var output = executeUpdateParkingControlUseCase.execute(parkingControlEntity);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
