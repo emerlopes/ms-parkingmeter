@@ -1,5 +1,6 @@
 package com.techchallenge.msparkingmeter.application.shared.dto;
 
+import com.techchallenge.msparkingmeter.application.exceptions.ParkingControlValidationException;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public enum PeriodTypeEnum {
     public static PeriodTypeEnum valueOf(Long value) {
         PeriodTypeEnum periodType = BY_VALUE.get(value);
         if (periodType == null) {
-            throw new IllegalArgumentException("No enum constant found with value: " + value);
+            throw new ParkingControlValidationException("No enum constant found with value: " + value);
         }
         return periodType;
     }
