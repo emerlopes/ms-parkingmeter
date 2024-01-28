@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service
-public class ExecuteFixedCalculationPaymentParkingUseCaseImpl implements ExecuteFixedCalculationPaymentParkingUseCase {
+public class ExecuteCalculationFixedValueExpectedToBePaidUseCaseImpl implements ExecuteFixedCalculationPaymentParkingUseCase {
 
     private static final BigDecimal FIXED_PARKING_PRICE = BigDecimal.valueOf(2.0);
     private static final BigDecimal VARIABLE_PARKING_PRICE = BigDecimal.valueOf(5.0);
