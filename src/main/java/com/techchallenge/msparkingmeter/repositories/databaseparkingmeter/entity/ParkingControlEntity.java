@@ -33,8 +33,8 @@ public class ParkingControlEntity {
     @Column(name = "duration_in_minutes")
     private Integer durationInMinutes;
 
-    @Column(name = "value_to_be_paid")
-    private BigDecimal valueToBePaid;
+    @Column(name = "predicted_value_to_be_paid")
+    private BigDecimal predictedValueToBePaid;
 
     @ManyToOne
     @JoinColumn(name = "parking_control_period_id")
