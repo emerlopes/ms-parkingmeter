@@ -35,11 +35,11 @@ public class ParkingControlController {
         this.driversClient = driversClient;
     }
 
-    @PostMapping("/{externalDriverId}/{periodTypeId}")
+    @PostMapping("/{externalDriverId}")
     public ResponseEntity<?> saveParkingControl(
             @PathVariable UUID externalDriverId,
-            @PathVariable Long periodTypeId,
-            @RequestParam(value = "duration_in_minutes", required = false) Optional<Integer> durationInMinutes) {
+            @RequestHeader(value = "period-type-id") Long periodTypeId,
+            @RequestHeader(value = "duration-in-minutes", required = false) Optional<Integer> durationInMinutes) {
 
         final var input = ParkingControlMapper.mapToParkingControlDomainEntityInput(externalDriverId, durationInMinutes);
         final var inputWithPeriodType = ParkingControlPeriodTypeMapper.mapToParkingControlPeriodTypeDomainEntityInput(periodTypeId);
