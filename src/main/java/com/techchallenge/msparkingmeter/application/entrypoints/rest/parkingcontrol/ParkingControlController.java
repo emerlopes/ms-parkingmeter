@@ -61,13 +61,13 @@ public class ParkingControlController {
     public ResponseEntity<?> terminateParking(
             @PathVariable Long parkingControlId) {
 
-        executeCalculationFinalAmountToBePaid.execute(parkingControlId);
+        final var result = executeCalculationFinalAmountToBePaid.execute(parkingControlId);
 
 //        final var parkingControl = executeFindParkingControlByIdUseCase.execute(parkingControlId);
 //        final var parkingControlEntity = ParkingControlMapper.mapToParkingControlEntity(parkingControl.getData());
 //
 //        final var output = executeUpdateParkingControlUseCase.execute(parkingControlEntity);
 
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

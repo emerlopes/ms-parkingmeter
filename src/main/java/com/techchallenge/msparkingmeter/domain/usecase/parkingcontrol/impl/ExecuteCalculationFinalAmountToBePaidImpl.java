@@ -1,7 +1,9 @@
 package com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.impl;
 
 import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
+import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
 import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingControlDomainService;
+import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteCalculationFinalAmountToBePaid;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteFindParkingControlByIdUseCase;
 import org.springframework.stereotype.Service;
@@ -25,14 +27,16 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
     }
 
     @Override
-    public void execute(Long parkingControlId) {
+    public CustomData<ParkingControlDomainEntityOutput> execute(Long parkingControlId) {
         final var output = executeFindParkingControlByIdUseCase.execute(parkingControlId);
         final var parkingControlPeriodType = output.getData().getPeriodType();
-        final var parkingStartTime = output.getData().getStartTime();
-        final var parkingEndTime = LocalDateTime.now();
+        final var parkingStartTime = output.getData().getParkingStartTime();
+        final var parkingEndTime = LocalDateTime.now().plusMinutes(189);
         final var fixedDurationInMinutes = output.getData().getDurationInMinutes();
         final var realDurationInMinutes = Duration.between(parkingStartTime, parkingEndTime).toMinutes();
 
+        final var domainEntity = output.getData();
+        domainEntity.setParkingEndTime(parkingEndTime);
 
         if (!PeriodTypeEnum.isFixed(parkingControlPeriodType.getParkingControlPeriodId())) {
             System.out.println("Period type is not fixed");
@@ -41,6 +45,8 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
 
             final var parkingPaymentAmount = VARIABLE_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedVariableHours));
 
+            domainEntity.setFinalValueToBePaid(parkingPaymentAmount);
+
             System.out.println(parkingPaymentAmount);
 
         } else {
@@ -48,15 +54,20 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
 
             final var chargedFixedHours = convertMinutesToHours(fixedDurationInMinutes);
 
+            var parkingPaymentAmount = BigDecimal.ZERO;
+
             if (realDurationInMinutes > fixedDurationInMinutes) {
                 System.out.println("Real duration is greater than fixed duration");
                 final var chargedVariableHours = convertMinutesToHours((int) realDurationInMinutes - fixedDurationInMinutes);
-                final var parkingPaymentAmount = FIXED_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedFixedHours))
+                parkingPaymentAmount = FIXED_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedFixedHours))
                         .add(VARIABLE_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedVariableHours)));
                 System.out.println(parkingPaymentAmount);
+            } else {
+                System.out.println("Real duration is less than fixed duration");
+                parkingPaymentAmount = FIXED_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedFixedHours));
             }
 
-            final var parkingPaymentAmount = FIXED_PARKING_PRICE.multiply(BigDecimal.valueOf(chargedFixedHours));
+            domainEntity.setFinalValueToBePaid(parkingPaymentAmount);
 
             System.out.println(parkingPaymentAmount);
 
@@ -65,13 +76,17 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         System.out.println(output);
 
         // TODO: Atualizar a entidade: ParkingControlEntity com o valor final a ser pago e a data final do estacionamento
-        parkingControlDomainService.saveParkingControl(output.getData());
+        final var entitySaved = parkingControlDomainService.saveParkingControl(domainEntity);
 
         // TODO: Criar um novo atributo para relacionar com o id recibo de pagamento
         // TODO: Criar a tabela de recibo de pagamento
         // TODO: Criar o endpoint para gerar o recibo de pagamento
         // TODO: Implementar a chamada para o endpoint de pagamento
 
+        final CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
+        customData.setData(entitySaved);
+
+        return customData;
     }
 
     private Integer convertMinutesToHours(int durationInMinutes) {

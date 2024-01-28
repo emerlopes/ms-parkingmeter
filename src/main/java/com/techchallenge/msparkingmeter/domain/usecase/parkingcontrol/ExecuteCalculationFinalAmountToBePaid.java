@@ -1,6 +1,8 @@
 package com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol;
 
-import com.techchallenge.msparkingmeter.domain.shared.IExecuteVoid;
+import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
+import com.techchallenge.msparkingmeter.domain.shared.CustomData;
+import com.techchallenge.msparkingmeter.domain.shared.IExecuteArgs;
 
-public interface ExecuteCalculationFinalAmountToBePaid extends IExecuteVoid<Long> {
+public interface ExecuteCalculationFinalAmountToBePaid extends IExecuteArgs<CustomData<ParkingControlDomainEntityOutput>, Long> {
 }

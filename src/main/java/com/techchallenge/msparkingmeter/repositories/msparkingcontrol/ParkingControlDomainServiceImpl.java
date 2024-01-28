@@ -28,6 +28,8 @@ public class ParkingControlDomainServiceImpl implements IParkingControlDomainSer
     public ParkingControlDomainEntityOutput saveParkingControl(ParkingControlDomainEntityOutput input) {
         final var entity = ParkingControlMapper.mapToParkingControlEntity(input);
         final var entitySaved = ParkingControlRepository.save(entity);
+
+        return ParkingControlMapper.mapToParkingControlDomainEntityOutput(entitySaved);
     }
 
     @Override
