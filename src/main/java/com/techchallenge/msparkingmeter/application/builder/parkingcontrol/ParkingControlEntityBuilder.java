@@ -3,6 +3,7 @@ package com.techchallenge.msparkingmeter.application.builder.parkingcontrol;
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlEntity;
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,6 +27,11 @@ public class ParkingControlEntityBuilder {
 
     public ParkingControlEntityBuilder withDurationInMinutes(Integer durationInMinutes) {
         this.parkingControlEntity.setDurationInMinutes(durationInMinutes);
+        return this;
+    }
+
+    public ParkingControlEntityBuilder withPredictedValueToBePaid(BigDecimal predictedValueToBePaid) {
+        this.parkingControlEntity.setPredictedValueToBePaid(predictedValueToBePaid);
         return this;
     }
 

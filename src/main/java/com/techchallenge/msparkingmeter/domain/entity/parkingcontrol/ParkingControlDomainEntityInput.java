@@ -4,6 +4,7 @@ import com.techchallenge.msparkingmeter.repositories.msdrivers.dto.DriverDomainE
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlPeriodTypeEntity;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ public class ParkingControlDomainEntityInput {
     private UUID externalDriverId;
     private LocalDateTime startTime;
     private Integer durationInMinutes;
+    private BigDecimal predictedValueToBePaid;
     private ParkingControlPeriodTypeEntity periodType;
     private DriverDomainEntityOutput driver;
 }

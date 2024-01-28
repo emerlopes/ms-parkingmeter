@@ -3,8 +3,6 @@ package com.techchallenge.msparkingmeter.application.mappers.parkingcontrol;
 import com.techchallenge.msparkingmeter.application.builder.parkingcontrol.ParkingControlDomainEntityInputBuilder;
 import com.techchallenge.msparkingmeter.application.builder.parkingcontrol.ParkingControlDomainEntityOutputBuilder;
 import com.techchallenge.msparkingmeter.application.builder.parkingcontrol.ParkingControlEntityBuilder;
-import com.techchallenge.msparkingmeter.application.entrypoints.rest.parkingcontrol.dto.ParkingControlDTO;
-import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
 import com.techchallenge.msparkingmeter.repositories.databaseparkingmeter.entity.ParkingControlEntity;
@@ -35,7 +33,7 @@ public class ParkingControlMapper {
                 .withStartTime(entity.getStartTime())
                 .withDurationInMinutes(entity.getDurationInMinutes())
                 .withPeriodType(entity.getPeriodType())
-                .withValueToBePaid(entity.getValueToBePaid())
+                .withValueToBePaid(entity.getPredictedValueToBePaid())
                 .build();
     }
 
@@ -46,6 +44,7 @@ public class ParkingControlMapper {
                 .withExternalDriverId(input.getExternalDriverId())
                 .withStartTime(input.getStartTime())
                 .withDurationInMinutes(input.getDurationInMinutes())
+                .withPredictedValueToBePaid(input.getPredictedValueToBePaid())
                 .withPeriodType(input.getPeriodType())
                 .build();
     }

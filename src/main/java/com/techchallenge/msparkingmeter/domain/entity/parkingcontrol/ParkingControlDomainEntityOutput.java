@@ -26,6 +26,6 @@ public class ParkingControlDomainEntityOutput {
     @JsonProperty("period_type")
     private ParkingControlPeriodTypeEntity periodType;
 
-    @JsonProperty("value_to_be_paid")
-    private BigDecimal valueToBePaid;
+    @JsonProperty("predicted_value_to_be_paid")
+    private BigDecimal predictedValueToBePaid;
 }

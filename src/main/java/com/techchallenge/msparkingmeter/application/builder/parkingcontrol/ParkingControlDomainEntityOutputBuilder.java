@@ -36,7 +36,7 @@ public class ParkingControlDomainEntityOutputBuilder {
     }
 
     public ParkingControlDomainEntityOutputBuilder withValueToBePaid(BigDecimal valueToBePaid) {
-        this.parkingControlDomainEntityOutput.setValueToBePaid(valueToBePaid);
+        this.parkingControlDomainEntityOutput.setPredictedValueToBePaid(valueToBePaid);
         return this;
     }
 
