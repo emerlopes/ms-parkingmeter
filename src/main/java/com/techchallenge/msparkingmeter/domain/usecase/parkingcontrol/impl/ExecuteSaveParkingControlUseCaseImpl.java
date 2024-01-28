@@ -1,7 +1,6 @@
 package com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.impl;
 
 import com.techchallenge.msparkingmeter.application.exceptions.ParkingControlValidationException;
-import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.businessrules.composites.impl.ParkingmeterBusinessRulesValidatorCompositeImpl;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
@@ -11,13 +10,9 @@ import com.techchallenge.msparkingmeter.domain.sevice.scheduler.IDriverNotificat
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
 import com.techchallenge.msparkingmeter.repositories.msdrivers.IDriversClient;
-import com.techchallenge.msparkingmeter.repositories.msdrivers.dto.DriverDomainEntityOutput;
-import com.techchallenge.msparkingmeter.repositories.mspayments.IPaymentsClient;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.UUID;
 
 @Service
 public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParkingControlUseCase {
@@ -46,6 +41,8 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
 
         this.checkParkingmeterBusinessRules(input);
         this.findDriverById(input);
+
+
 
         final var periodTypeMessage = input.getPeriodType().getPeriodType().getMessage();
         final var output = parkingControlDomainService.saveParkingControl(input);
