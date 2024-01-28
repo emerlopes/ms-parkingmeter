@@ -3,8 +3,10 @@ package com.techchallenge.msparkingmeter.domain.businessrules.composites.impl;
 import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.businessrules.composites.ParkingmeterBusinessRulesValidatorComposite;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
+import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteFixedCalculationPaymentParkingUseCase;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -12,11 +14,15 @@ public class ParkingmeterBusinessRulesValidatorCompositeImpl implements Parkingm
 
     private final List<ParkingmeterBusinessRulesValidatorComposite> validators;
 
+    private final ExecuteFixedCalculationPaymentParkingUseCase executeFixedCalculationPaymentParkingUseCase;
+
     private RuntimeException exception;
 
 
-    public ParkingmeterBusinessRulesValidatorCompositeImpl(List<ParkingmeterBusinessRulesValidatorComposite> validators) {
+    public ParkingmeterBusinessRulesValidatorCompositeImpl(List<ParkingmeterBusinessRulesValidatorComposite> validators,
+                                                           ExecuteFixedCalculationPaymentParkingUseCase executeFixedCalculationPaymentParkingUseCase) {
         this.validators = validators;
+        this.executeFixedCalculationPaymentParkingUseCase = executeFixedCalculationPaymentParkingUseCase;
     }
 
     public void addValidator(ParkingmeterBusinessRulesValidatorComposite validator) {
@@ -33,6 +39,7 @@ public class ParkingmeterBusinessRulesValidatorCompositeImpl implements Parkingm
         if (!isFixedPeriodType) {
             System.out.println("Period type is not fixed");
             input.setDurationInMinutes(0);
+            input.setPredictedValueToBePaid(BigDecimal.ZERO);
             return true;
         }
 
@@ -46,6 +53,8 @@ public class ParkingmeterBusinessRulesValidatorCompositeImpl implements Parkingm
         } catch (Exception e) {
             return false;
         }
+
+        executeFixedCalculationPaymentParkingUseCase.execute(input);
 
         return true;
     }
