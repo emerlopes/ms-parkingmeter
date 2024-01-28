@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 public class ExecuteCalculationAmountExpectedToBePaidUseCaseImpl implements ExecuteCalculationFixedAmountExpectedToBePaidUseCaseImpl {
 
     private static final BigDecimal FIXED_PARKING_PRICE = BigDecimal.valueOf(2.0);
-    private static final BigDecimal VARIABLE_PARKING_PRICE = BigDecimal.valueOf(5.0);
 
     @Override
     public void execute(ParkingControlDomainEntityInput input) {
