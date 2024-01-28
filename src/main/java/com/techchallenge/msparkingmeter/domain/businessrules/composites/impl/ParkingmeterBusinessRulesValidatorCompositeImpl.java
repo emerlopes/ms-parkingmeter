@@ -3,7 +3,7 @@ package com.techchallenge.msparkingmeter.domain.businessrules.composites.impl;
 import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.businessrules.composites.ParkingmeterBusinessRulesValidatorComposite;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
-import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteFixedCalculationPaymentParkingUseCase;
+import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteCalculationFixedAmountExpectedToBePaidUseCaseImpl;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -14,15 +14,15 @@ public class ParkingmeterBusinessRulesValidatorCompositeImpl implements Parkingm
 
     private final List<ParkingmeterBusinessRulesValidatorComposite> validators;
 
-    private final ExecuteFixedCalculationPaymentParkingUseCase executeFixedCalculationPaymentParkingUseCase;
+    private final ExecuteCalculationFixedAmountExpectedToBePaidUseCaseImpl executeCalculationFixedAmountExpectedToBePaidUseCaseImpl;
 
     private RuntimeException exception;
 
 
     public ParkingmeterBusinessRulesValidatorCompositeImpl(List<ParkingmeterBusinessRulesValidatorComposite> validators,
-                                                           ExecuteFixedCalculationPaymentParkingUseCase executeFixedCalculationPaymentParkingUseCase) {
+                                                           ExecuteCalculationFixedAmountExpectedToBePaidUseCaseImpl executeCalculationFixedAmountExpectedToBePaidUseCaseImpl) {
         this.validators = validators;
-        this.executeFixedCalculationPaymentParkingUseCase = executeFixedCalculationPaymentParkingUseCase;
+        this.executeCalculationFixedAmountExpectedToBePaidUseCaseImpl = executeCalculationFixedAmountExpectedToBePaidUseCaseImpl;
     }
 
     public void addValidator(ParkingmeterBusinessRulesValidatorComposite validator) {
@@ -54,7 +54,7 @@ public class ParkingmeterBusinessRulesValidatorCompositeImpl implements Parkingm
             return false;
         }
 
-        executeFixedCalculationPaymentParkingUseCase.execute(input);
+        executeCalculationFixedAmountExpectedToBePaidUseCaseImpl.execute(input);
 
         return true;
     }

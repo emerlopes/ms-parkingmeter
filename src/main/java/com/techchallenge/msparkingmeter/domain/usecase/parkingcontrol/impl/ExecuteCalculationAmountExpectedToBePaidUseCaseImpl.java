@@ -2,13 +2,13 @@ package com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.impl;
 
 import com.techchallenge.msparkingmeter.application.shared.dto.PeriodTypeEnum;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
-import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteFixedCalculationPaymentParkingUseCase;
+import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.ExecuteCalculationFixedAmountExpectedToBePaidUseCaseImpl;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
-public class ExecuteCalculationFixedValueExpectedToBePaidUseCaseImpl implements ExecuteFixedCalculationPaymentParkingUseCase {
+public class ExecuteCalculationAmountExpectedToBePaidUseCaseImpl implements ExecuteCalculationFixedAmountExpectedToBePaidUseCaseImpl {
 
     private static final BigDecimal FIXED_PARKING_PRICE = BigDecimal.valueOf(2.0);
     private static final BigDecimal VARIABLE_PARKING_PRICE = BigDecimal.valueOf(5.0);
