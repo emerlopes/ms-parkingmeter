@@ -24,14 +24,17 @@ public class ParkingControlEntity {
     @Column(name = "external_driver_id")
     private UUID externalDriverId;
 
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "parking_start_time", nullable = false)
     private LocalDateTime parkingStartTime;
 
-    @Column(name = "end_time")
+    @Column(name = "parking_end_time")
     private LocalDateTime parkingEndTime;
 
-    @Column(name = "duration_in_minutes")
-    private Integer durationInMinutes;
+    @Column(name = "requested_minutes")
+    private Integer requestedMinutes;
+
+    @Column(name= "real_minutes")
+    private Integer realMinutes;
 
     @Column(name = "predicted_value_to_be_paid")
     private BigDecimal predictedValueToBePaid;

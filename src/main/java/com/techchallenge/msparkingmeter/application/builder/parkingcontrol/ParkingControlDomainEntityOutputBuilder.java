@@ -36,7 +36,7 @@ public class ParkingControlDomainEntityOutputBuilder {
     }
 
     public ParkingControlDomainEntityOutputBuilder withDurationInMinutes(Integer durationInMinutes) {
-        this.parkingControlDomainEntityOutput.setDurationInMinutes(durationInMinutes);
+        this.parkingControlDomainEntityOutput.setRequestedMinutes(durationInMinutes);
         return this;
     }
 

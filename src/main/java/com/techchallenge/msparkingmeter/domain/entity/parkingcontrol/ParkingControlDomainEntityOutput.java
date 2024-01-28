@@ -23,8 +23,11 @@ public class ParkingControlDomainEntityOutput {
     @JsonProperty("parking_end_time")
     private LocalDateTime parkingEndTime;
 
-    @JsonProperty("duration_in_minutes")
-    private Integer durationInMinutes;
+    @JsonProperty("requested_minutes")
+    private Integer requestedMinutes;
+
+    @JsonProperty("real_minutes")
+    private Integer realMinutes;
 
     @JsonProperty("predicted_value_to_be_paid")
     private BigDecimal predictedValueToBePaid;
