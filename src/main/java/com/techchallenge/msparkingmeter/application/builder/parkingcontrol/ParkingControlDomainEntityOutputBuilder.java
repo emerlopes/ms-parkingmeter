@@ -25,8 +25,13 @@ public class ParkingControlDomainEntityOutputBuilder {
         return this;
     }
 
-    public ParkingControlDomainEntityOutputBuilder withStartTime(LocalDateTime startTime) {
-        this.parkingControlDomainEntityOutput.setStartTime(startTime);
+    public ParkingControlDomainEntityOutputBuilder withParkingStartTime(LocalDateTime startTime) {
+        this.parkingControlDomainEntityOutput.setParkingStartTime(startTime);
+        return this;
+    }
+
+    public ParkingControlDomainEntityOutputBuilder withParkingEndTime(LocalDateTime endTime) {
+        this.parkingControlDomainEntityOutput.setParkingEndTime(endTime);
         return this;
     }
 
@@ -37,6 +42,11 @@ public class ParkingControlDomainEntityOutputBuilder {
 
     public ParkingControlDomainEntityOutputBuilder withValueToBePaid(BigDecimal valueToBePaid) {
         this.parkingControlDomainEntityOutput.setPredictedValueToBePaid(valueToBePaid);
+        return this;
+    }
+
+    public ParkingControlDomainEntityOutputBuilder withFinalValueToBePaid(BigDecimal finalValueToBePaid) {
+        this.parkingControlDomainEntityOutput.setFinalValueToBePaid(finalValueToBePaid);
         return this;
     }
 

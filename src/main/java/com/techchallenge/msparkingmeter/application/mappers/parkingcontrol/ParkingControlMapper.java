@@ -30,10 +30,12 @@ public class ParkingControlMapper {
         return new ParkingControlDomainEntityOutputBuilder()
                 .withParkingControlId(entity.getParkingControlId())
                 .withExternalDriverId(entity.getExternalDriverId())
-                .withStartTime(entity.getParkingStartTime())
+                .withParkingStartTime(entity.getParkingStartTime())
+                .withParkingEndTime(entity.getParkingEndTime())
                 .withDurationInMinutes(entity.getDurationInMinutes())
-                .withPeriodType(entity.getPeriodType())
                 .withValueToBePaid(entity.getPredictedValueToBePaid())
+                .withFinalValueToBePaid(entity.getFinalValueToBePaid())
+                .withPeriodType(entity.getPeriodType())
                 .build();
     }
 
@@ -53,9 +55,13 @@ public class ParkingControlMapper {
             ParkingControlDomainEntityOutput input) {
 
         return new ParkingControlEntityBuilder()
+                .withParkingControlId(input.getParkingControlId())
                 .withExternalDriverId(input.getExternalDriverId())
-                .withParkingStartTime(input.getStartTime())
+                .withParkingStartTime(input.getParkingStartTime())
+                .withParkingEndTime(input.getParkingEndTime())
                 .withDurationInMinutes(input.getDurationInMinutes())
+                .withPredictedValueToBePaid(input.getPredictedValueToBePaid())
+                .withFinalValueToBePaid(input.getFinalValueToBePaid())
                 .withPeriodType(input.getPeriodType())
                 .build();
     }

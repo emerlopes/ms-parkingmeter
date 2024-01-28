@@ -17,15 +17,22 @@ public class ParkingControlDomainEntityOutput {
     @JsonProperty("external_driver_id")
     private UUID externalDriverId;
 
-    @JsonProperty("start_time")
-    private LocalDateTime startTime;
+    @JsonProperty("parking_start_time")
+    private LocalDateTime parkingStartTime;
+
+    @JsonProperty("parking_end_time")
+    private LocalDateTime parkingEndTime;
 
     @JsonProperty("duration_in_minutes")
     private Integer durationInMinutes;
 
+    @JsonProperty("predicted_value_to_be_paid")
+    private BigDecimal predictedValueToBePaid;
+
+    @JsonProperty("final_value_to_be_paid")
+    private BigDecimal finalValueToBePaid;
+
     @JsonProperty("period_type")
     private ParkingControlPeriodTypeEntity periodType;
 
-    @JsonProperty("predicted_value_to_be_paid")
-    private BigDecimal predictedValueToBePaid;
 }
