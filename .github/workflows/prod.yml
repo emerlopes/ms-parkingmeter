@@ -34,39 +34,39 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.CONTAINER_NAME }}:${{ github.sha }}
 
-  deploy:
-    needs: build
-    runs-on: self-hosted
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-    steps:
-      - name: Pull the latest Docker image
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ secrets.DOCKER_USERNAME }}/$CONTAINER_NAME:${{ github.sha }}
-
-      - name: Display environment variables
-        run: |
-          echo "DATABASE_URL: $DATABASE_URL"
-          echo "DATABASE_USERNAME: $DATABASE_USERNAME"
-          echo "DATABASE_PASSWORD: ***"  # Mask the password in logs
-
-      - name: Stop and remove the previous container
-        run: |
-          if sudo docker ps -a | grep -q ${{ secrets.CONTAINER_NAME }}; then
-            sudo docker stop $CONTAINER_NAME
-            sudo docker rm $CONTAINER_NAME
-          fi
-
-      - name: Run the Docker container
-        run: |
-          sudo docker run -d \
-            --name $CONTAINER_NAME \
-            -p 8080:8080 \
-            -e DATABASE_URL=$DATABASE_URL \
-            -e DATABASE_USERNAME=$DATABASE_USERNAME \
-            -e DATABASE_PASSWORD=$DATABASE_PASSWORD \
-            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.CONTAINER_NAME }}:${{ github.sha }}
+#  deploy:
+#    needs: build
+#    runs-on: self-hosted
+#    env:
+#      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#      DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+#      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+#      CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
+#    steps:
+#      - name: Pull the latest Docker image
+#        uses: docker/metadata-action@v3
+#        with:
+#          images: ${{ secrets.DOCKER_USERNAME }}/$CONTAINER_NAME:${{ github.sha }}
+#
+#      - name: Display environment variables
+#        run: |
+#          echo "DATABASE_URL: $DATABASE_URL"
+#          echo "DATABASE_USERNAME: $DATABASE_USERNAME"
+#          echo "DATABASE_PASSWORD: ***"  # Mask the password in logs
+#
+#      - name: Stop and remove the previous container
+#        run: |
+#          if sudo docker ps -a | grep -q ${{ secrets.CONTAINER_NAME }}; then
+#            sudo docker stop $CONTAINER_NAME
+#            sudo docker rm $CONTAINER_NAME
+#          fi
+#
+#      - name: Run the Docker container
+#        run: |
+#          sudo docker run -d \
+#            --name $CONTAINER_NAME \
+#            -p 8080:8080 \
+#            -e DATABASE_URL=$DATABASE_URL \
+#            -e DATABASE_USERNAME=$DATABASE_USERNAME \
+#            -e DATABASE_PASSWORD=$DATABASE_PASSWORD \
+#            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.CONTAINER_NAME }}:${{ github.sha }}
