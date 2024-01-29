@@ -7,11 +7,19 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+/**
+ * Implementação do caso de uso para calcular o valor esperado a ser pago pelo estacionamento.
+ */
 @Service
 public class ExecuteCalculationAmountExpectedToBePaidUseCaseImpl implements ExecuteCalculationFixedAmountExpectedToBePaidUseCaseImpl {
 
     private static final BigDecimal FIXED_PARKING_PRICE = BigDecimal.valueOf(2.0);
 
+    /**
+     * Executa o cálculo do valor esperado a ser pago pelo estacionamento com base nas informações fornecidas.
+     *
+     * @param input Entrada de dados do controle de estacionamento contendo informações sobre a duração, tipo de período, etc.
+     */
     @Override
     public void execute(ParkingControlDomainEntityInput input) {
 
@@ -25,9 +33,14 @@ public class ExecuteCalculationAmountExpectedToBePaidUseCaseImpl implements Exec
 
             input.setPredictedValueToBePaid(predictedValueToBePaid);
         }
-
     }
 
+    /**
+     * Converte a duração em minutos para horas, arredondando para cima.
+     *
+     * @param durationInMinutes Duração em minutos a ser convertida.
+     * @return O número de horas equivalente à duração em minutos.
+     */
     private Integer convertMinutesToHours(int durationInMinutes) {
         return (int) Math.ceil(durationInMinutes / 60.0);
     }

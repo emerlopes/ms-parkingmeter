@@ -15,29 +15,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Controlador responsável por gerenciar operações relacionadas ao controle de estacionamento.
+ */
 @RestController
 @RequestMapping("/api/parking-control")
 public class ParkingControlController {
 
     private final IExecuteSaveParkingControlUseCase executeSaveParkingControlUseCase;
     private final IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase;
-    private final IExecuteUpdateParkingControlUseCase executeUpdateParkingControlUseCase;
-    private final IExecuteFindParkingControlByIdUseCase executeFindParkingControlByIdUseCase;
     private final ExecuteCalculationFinalAmountToBePaid executeCalculationFinalAmountToBePaid;
-    private final IDriversClient driversClient;
 
+    /**
+     * Construtor da classe ParkingControlController.
+     *
+     * @param executeSaveParkingControlUseCase               Caso de uso para salvar informações de controle de estacionamento.
+     * @param executeFindParkingControlPeriodTypeByIdUseCase Caso de uso para buscar informações de tipos de período de controle de estacionamento por ID.
+     * @param executeCalculationFinalAmountToBePaid          Caso de uso para calcular o valor final a ser pago pelo estacionamento.
+     */
     public ParkingControlController(
             IExecuteSaveParkingControlUseCase executeSaveParkingControlUseCase,
-            IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase, IExecuteUpdateParkingControlUseCase executeUpdateParkingControlUseCase, IExecuteFindParkingControlByIdUseCase executeFindParkingControlByIdUseCase, ExecuteCalculationFinalAmountToBePaid executeCalculationFinalAmountToBePaid, IDriversClient driversClient) {
+            IExecuteFindParkingControlPeriodTypeByIdUseCase executeFindParkingControlPeriodTypeByIdUseCase,
+            ExecuteCalculationFinalAmountToBePaid executeCalculationFinalAmountToBePaid) {
 
         this.executeSaveParkingControlUseCase = executeSaveParkingControlUseCase;
         this.executeFindParkingControlPeriodTypeByIdUseCase = executeFindParkingControlPeriodTypeByIdUseCase;
-        this.executeUpdateParkingControlUseCase = executeUpdateParkingControlUseCase;
-        this.executeFindParkingControlByIdUseCase = executeFindParkingControlByIdUseCase;
         this.executeCalculationFinalAmountToBePaid = executeCalculationFinalAmountToBePaid;
-        this.driversClient = driversClient;
     }
 
+    /**
+     * Endpoint para salvar informações de controle de estacionamento.
+     *
+     * @param externalDriverId  ID externo do motorista.
+     * @param periodTypeId      ID do tipo de período de controle.
+     * @param durationInMinutes Duração em minutos (opcional) do estacionamento.
+     * @return ResponseEntity com os detalhes da operação de salvar controle de estacionamento.
+     */
     @PostMapping("/{externalDriverId}")
     public ResponseEntity<?> saveParkingControl(
             @PathVariable UUID externalDriverId,
@@ -57,6 +70,12 @@ public class ParkingControlController {
         return ResponseEntity.status(HttpStatus.CREATED).body(output);
     }
 
+    /**
+     * Endpoint para encerrar um controle de estacionamento e calcular o valor final a ser pago.
+     *
+     * @param parkingControlId ID do controle de estacionamento a ser encerrado.
+     * @return ResponseEntity com os detalhes do cálculo do valor final a ser pago.
+     */
     @PutMapping("/{parkingControlId}")
     public ResponseEntity<?> terminateParking(
             @PathVariable Long parkingControlId) {

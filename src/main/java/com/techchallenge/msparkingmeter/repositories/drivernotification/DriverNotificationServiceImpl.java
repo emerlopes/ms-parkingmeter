@@ -13,15 +13,28 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+/**
+ * Implementação da interface {@link IDriverNotificationDomainService} que lida com notificações para motoristas.
+ */
 @Service
 public class DriverNotificationServiceImpl implements IDriverNotificationDomainService {
 
     private final HashicorpClientService hashicorpClientService;
 
+    /**
+     * Construtor da classe.
+     *
+     * @param hashicorpClientService O serviço HashiCorp para obter segredos.
+     */
     public DriverNotificationServiceImpl(HashicorpClientService hashicorpClientService) {
         this.hashicorpClientService = hashicorpClientService;
     }
 
+    /**
+     * Cria uma notificação agendada para o motorista.
+     *
+     * @param input Os dados de entrada para a notificação agendada.
+     */
     @Override
     public void createScheduledNotification(SchedulerInput input) {
 
@@ -41,6 +54,11 @@ public class DriverNotificationServiceImpl implements IDriverNotificationDomainS
                 .create();
     }
 
+    /**
+     * Notifica imediatamente o motorista.
+     *
+     * @param input Os dados de entrada para a notificação imediata.
+     */
     @Override
     public void notifyDriver(SchedulerInput input) {
         final var secrets = hashicorpClientService.getHashiCorpSecret();
@@ -54,6 +72,12 @@ public class DriverNotificationServiceImpl implements IDriverNotificationDomainS
                 .create();
     }
 
+    /**
+     * Cria a hora agendada para a notificação com base na hora atual e na duração em minutos.
+     *
+     * @param input Os dados de entrada para a notificação agendada.
+     * @return A hora agendada para a notificação.
+     */
     private LocalDateTime createScheduledTime(SchedulerInput input) {
         final var dateTimeNow = input.getDateTimeNow();
         final var durationInMinutes = input.getDurationInMinutes();
@@ -61,7 +85,14 @@ public class DriverNotificationServiceImpl implements IDriverNotificationDomainS
         return dateTimeNow.plusMinutes(durationInMinutes - 15);
     }
 
+    /**
+     * Formata o número de telefone para o formato internacional.
+     *
+     * @param phoneNumber O número de telefone a ser formatado.
+     * @return O número de telefone formatado no formato internacional.
+     */
     private String formatPhoneNumber(String phoneNumber) {
         return String.format("+55%s", phoneNumber);
     }
 }
+

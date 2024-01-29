@@ -15,6 +15,9 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Implementação do caso de uso para calcular o valor final a ser pago pelo estacionamento.
+ */
 @Service
 public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalculationFinalAmountToBePaid {
 
@@ -24,6 +27,13 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
     private static final BigDecimal FIXED_PARKING_PRICE = BigDecimal.valueOf(2.0);
     private static final BigDecimal VARIABLE_PARKING_PRICE = BigDecimal.valueOf(5.0);
 
+    /**
+     * Construtor da classe ExecuteCalculationFinalAmountToBePaidImpl.
+     *
+     * @param executeFindParkingControlByIdUseCase      Caso de uso para encontrar informações de controle de estacionamento por ID.
+     * @param parkingControlDomainService               Serviço de domínio para controle de estacionamento.
+     * @param paymentsClient                            Cliente para interagir com o sistema de pagamentos.
+     */
     public ExecuteCalculationFinalAmountToBePaidImpl(IExecuteFindParkingControlByIdUseCase executeFindParkingControlByIdUseCase,
                                                      IParkingControlDomainService parkingControlDomainService, IPaymentsClient paymentsClient) {
         this.executeFindParkingControlByIdUseCase = executeFindParkingControlByIdUseCase;
@@ -31,6 +41,12 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         this.paymentsClient = paymentsClient;
     }
 
+    /**
+     * Executa o cálculo do valor final a ser pago pelo estacionamento com base nas informações fornecidas.
+     *
+     * @param parkingControlId ID do controle de estacionamento para o qual o cálculo será realizado.
+     * @return CustomData contendo informações sobre o valor final a ser pago e outras informações relacionadas.
+     */
     @Override
     public CustomData<ParkingControlDomainEntityOutput> execute(Long parkingControlId) {
         final var output = executeFindParkingControlByIdUseCase.execute(parkingControlId);
@@ -120,12 +136,23 @@ public class ExecuteCalculationFinalAmountToBePaidImpl implements ExecuteCalcula
         return customData;
     }
 
+    /**
+     * Arredonda o valor para cima para o número de horas mais próximo.
+     *
+     * @param minutes Valor em minutos a ser arredondado para cima.
+     * @return O número de horas mais próximo.
+     */
     private Integer roundUpToHours(int minutes) {
         return (int) Math.ceil(minutes / 60.0);
     }
 
+    /**
+     * Arredonda o valor para baixo para o número de horas mais próximo.
+     *
+     * @param minutes Valor em minutos a ser arredondado para baixo.
+     * @return O número de horas mais próximo.
+     */
     private Integer roundDownToHours(int minutes) {
         return (int) Math.floor(minutes / 60.0);
     }
 }
-

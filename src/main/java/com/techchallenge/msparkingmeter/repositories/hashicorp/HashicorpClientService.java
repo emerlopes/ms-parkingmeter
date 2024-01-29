@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementação do serviço para acessar o HashiCorp Vault e obter segredos.
+ */
 @Service
 public class HashicorpClientService {
 
@@ -17,12 +20,24 @@ public class HashicorpClientService {
     private final IHashicorpAuthClient iHashicorpAuthClient;
     private final IHashicorpSecretClient iHashicorpSecretClient;
 
+    /**
+     * Construtor da classe.
+     *
+     * @param properties           As propriedades de configuração do HashiCorp.
+     * @param iHashicorpAuthClient O cliente de autenticação do HashiCorp.
+     * @param iHashicorpSecretClient O cliente de segredos do HashiCorp.
+     */
     public HashicorpClientService(Properties properties, IHashicorpAuthClient iHashicorpAuthClient, IHashicorpSecretClient iHashicorpSecretClient) {
         this.properties = properties;
         this.iHashicorpAuthClient = iHashicorpAuthClient;
         this.iHashicorpSecretClient = iHashicorpSecretClient;
     }
 
+    /**
+     * Obtém o token de acesso ao HashiCorp Vault.
+     *
+     * @return O token de acesso.
+     */
     private String getAccessToken() {
 
         final var tokenRequestDTO = new TokenRequestDTO();
@@ -34,6 +49,13 @@ public class HashicorpClientService {
         return iHashicorpAuthClient.getAccessToken(tokenRequestDTO).getAccess_token();
     }
 
+    /**
+     * Obtém o valor de um segredo específico com base no nome.
+     *
+     * @param secrets    A lista de segredos disponíveis.
+     * @param secretName O nome do segredo a ser obtido.
+     * @return O valor do segredo se encontrado, ou um valor vazio se não encontrado.
+     */
     private Optional<String> getSecretValue(List<SecretResponseDTO> secrets, String secretName) {
 
         return secrets.stream()
@@ -42,6 +64,11 @@ public class HashicorpClientService {
                 .map(secret -> secret.getVersion().getValue());
     }
 
+    /**
+     * Obtém os segredos do HashiCorp Vault.
+     *
+     * @return Os segredos obtidos do HashiCorp Vault.
+     */
     public HashiCorpSecret getHashiCorpSecret() {
         final var token = getAccessToken();
         final var authorization = "Bearer " + token;
@@ -57,3 +84,4 @@ public class HashicorpClientService {
     }
 
 }
+
