@@ -19,4 +19,8 @@ public class Properties {
     @Value("${hashicorp.client.secret}")
     private String hashicorpClientSecret;
 
+    // TWILIO
+    @Value("${twilio.notify}")
+    private boolean twilioNotify;
+
 }

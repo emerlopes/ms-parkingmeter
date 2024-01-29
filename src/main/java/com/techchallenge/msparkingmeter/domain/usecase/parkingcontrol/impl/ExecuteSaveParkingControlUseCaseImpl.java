@@ -10,6 +10,7 @@ import com.techchallenge.msparkingmeter.domain.sevice.parkingcontrol.IParkingCon
 import com.techchallenge.msparkingmeter.domain.sevice.scheduler.IDriverNotificationDomainService;
 import com.techchallenge.msparkingmeter.domain.shared.CustomData;
 import com.techchallenge.msparkingmeter.domain.usecase.parkingcontrol.IExecuteSaveParkingControlUseCase;
+import com.techchallenge.msparkingmeter.infrastructure.properties.Properties;
 import com.techchallenge.msparkingmeter.repositories.msdrivers.IDriversClient;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,7 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
      * Cliente para acessar informações de motoristas.
      */
     private final IDriversClient driversClient;
+    private final Properties properties;
 
     /**
      * Construtor da classe.
@@ -52,11 +54,12 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
     public ExecuteSaveParkingControlUseCaseImpl(IParkingControlDomainService parkingControlDomainService,
                                                 ParkingmeterBusinessRulesValidatorCompositeImpl parkingmeterBusinessRulesValidator,
                                                 IDriverNotificationDomainService schedulerDomainService,
-                                                IDriversClient driversClient) {
+                                                IDriversClient driversClient, Properties properties) {
         this.parkingControlDomainService = parkingControlDomainService;
         this.parkingmeterBusinessRulesValidator = parkingmeterBusinessRulesValidator;
         this.schedulerDomainService = schedulerDomainService;
         this.driversClient = driversClient;
+        this.properties = properties;
     }
 
     /**
@@ -74,10 +77,12 @@ public class ExecuteSaveParkingControlUseCaseImpl implements IExecuteSaveParking
         final var output = parkingControlDomainService.saveParkingControl(input);
         final var schedulerInput = this.createSchedulerInput(input, periodTypeMessage);
 
-        if (input.getPeriodType().getPeriodType().equals(PeriodTypeEnum.FIXED)) {
-            schedulerDomainService.createScheduledNotification(schedulerInput);
-        } else {
-            schedulerDomainService.notifyDriver(schedulerInput);
+        if (properties.isTwilioNotify()) {
+            if (input.getPeriodType().getPeriodType().equals(PeriodTypeEnum.FIXED)) {
+                schedulerDomainService.createScheduledNotification(schedulerInput);
+            } else {
+                schedulerDomainService.notifyDriver(schedulerInput);
+            }
         }
 
         CustomData<ParkingControlDomainEntityOutput> customData = new CustomData<>();
