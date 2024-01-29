@@ -34,15 +34,49 @@ necessário clonar e executar estas aplicações:
 
 ## Testando o Projeto
 
+### Pré-requisitos para Realização de Testes no MSParkingMeter
+
+Para executar testes no MSParkingMeter de forma eficaz, é necessário cumprir alguns pré-requisitos básicos relacionados
+ao cadastro de informações no sistema. Estes passos garantem que o ambiente de testes reflita as operações reais do
+sistema.
+
+### Passos Necessários
+
 1. Navegue até o diretório do projeto.
 2. Uma collection para testar o fluxo completo está disponível na pasta `misc`. Importe-a no Insomnia para uso.
 
-### Notificações
+## Pré-requisitos para Realização de Testes no MSParkingMeter
+
+Para executar testes no MSParkingMeter de forma eficaz, é necessário cumprir alguns pré-requisitos básicos relacionados
+ao cadastro de informações no sistema. Estes passos garantem que o ambiente de testes reflita as operações reais do
+sistema.
+
+### Passos Necessários
+
+1. **Criação de um Condutor**:
+    - Antes de iniciar os testes, é essencial cadastrar um condutor no sistema.
+    - Execute a request `1.1 Cadastro condutor` para realizar o cadastro.
+    - Este passo é fundamental para associar as operações de estacionamento a um usuário específico.
+
+2. **Registro de uma Forma de Pagamento**:
+    - Após o cadastro do condutor, é necessário registrar uma forma de pagamento para ele.
+    - Execute uma das requests disponíveis em `2. Registro de Forma de Pagamento`.
+    - A forma de pagamento é crucial para processar as transações relacionadas aos serviços de estacionamento.
+
+### Importância dos Pré-requisitos
+
+Esses pré-requisitos são vitais para assegurar que os testes reflitam com precisão as funcionalidades e fluxos do
+sistema. Sem um condutor cadastrado e uma forma de pagamento definida, não será possível testar integralmente as
+operações de estacionamento e pagamentos.
+
+Ao seguir estes passos, qualquer request da pasta 3. Controle de Tempo Estacionado poderá ser executada com sucesso.
+
+## Notificações
 
 Para testar a funcionalidade de notificação, ative-a alterando a propriedade `twilio.notify=false` para `true` no
 arquivo `application.properties`.
 
-# Sistema de Notificação do MSParkingMeter
+### Sistema de Notificação do MSParkingMeter
 
 O MSParkingMeter oferece um sistema de notificação sofisticado para melhorar a experiência do usuário com relação ao
 controle do tempo de estacionamento. Existem duas formas de notificação:
