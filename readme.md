@@ -58,6 +58,7 @@ Siga estes passos para testar o fluxo completo no sistema de estacionamento:
 - Em seguida, registre uma forma de pagamento para o condutor.
 - Utilize a seção `2. Registro de Forma de Pagamento` na collection do Insomnia.
 - Escolha e execute uma das requests disponíveis para este fim.
+- 1 para CREDIT_CARD, 2 para DEBIT_CARD ou 3 para PIX).
 - A forma de pagamento é crucial para os serviços de estacionamento.
 
 #### 6. Início de um Período de Estacionamento
