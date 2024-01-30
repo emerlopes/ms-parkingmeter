@@ -34,33 +34,43 @@ necessário clonar e executar estas aplicações:
 
 ## Testando o Projeto
 
-### Pré-requisitos para Realização de Testes no MSParkingMeter
+### Passos Necessários para Testar o Fluxo de Estacionamento
 
-Para executar testes no MSParkingMeter de forma eficaz, é necessário cumprir alguns pré-requisitos básicos relacionados
-ao cadastro de informações no sistema. Estes passos garantem que o ambiente de testes reflita as operações reais do
-sistema.
+Siga estes passos para testar o fluxo completo no sistema de estacionamento:
 
-### Passos Necessários
+#### 1. Navegação até o Diretório do Projeto
+- Navegue até o diretório do projeto onde a collection do Insomnia está localizada.
 
-1. Navegue até o diretório do projeto.
-2. Uma collection para testar o fluxo completo está disponível na pasta `misc`. Importe-a no Insomnia para uso.
-3. Criação de um Condutor:
-    - Antes de iniciar os testes, é essencial cadastrar um condutor no sistema.
-    - Execute a request `1.1 Cadastro condutor` para realizar o cadastro.
-    - Este passo é fundamental para associar as operações de estacionamento a um usuário específico.
+#### 2. Importação da Collection no Insomnia
+- Importe a collection disponível na pasta `misc` no Insomnia para uso.
 
-4. Registro de uma Forma de Pagamento:
-    - Após o cadastro do condutor, é necessário registrar uma forma de pagamento para ele.
-    - Execute uma das requests disponíveis em `2. Registro de Forma de Pagamento`.
-    - A forma de pagamento é crucial para processar as transações relacionadas aos serviços de estacionamento.
+#### 3. Criação de um Condutor
+- **Antes de iniciar os testes**, é essencial cadastrar um condutor no sistema.
+- Execute a request `1.1 Cadastro condutor` para realizar o cadastro.
+- Este passo é **fundamental** para associar as operações de estacionamento a um usuário específico.
 
-### Importância dos Pré-requisitos
+#### 4. Registro de um Veículo
+- Após o cadastro do condutor, registre um veículo para ele.
+- Execute a request `1.2 Cadastro veículos`, informando o `driver_external_id` gerado anteriormente.
+- Isso associa o veículo ao condutor no sistema.
 
-Esses pré-requisitos são vitais para assegurar que os testes reflitam com precisão as funcionalidades e fluxos do
-sistema. Sem um condutor cadastrado e uma forma de pagamento definida, não será possível testar integralmente as
-operações de estacionamento e pagamentos.
+#### 5. Registro de uma Forma de Pagamento
+- Em seguida, registre uma forma de pagamento para o condutor.
+- Utilize a seção `2. Registro de Forma de Pagamento` na collection do Insomnia.
+- Escolha e execute uma das requests disponíveis para este fim.
+- A forma de pagamento é crucial para os serviços de estacionamento.
 
-Ao seguir estes passos, qualquer request da pasta 3. Controle de Tempo Estacionado poderá ser executada com sucesso.
+#### 6. Início de um Período de Estacionamento
+- Com veículo e forma de pagamento configurados, inicie um período de estacionamento.
+- Para estacionamento **fixo**, execute a request `3.1`.
+- Para estacionamento **variável**, use a request `3.2`.
+- Informe o `period-type-id` (1 para FIXO ou 2 para VARIÁVEL).
+- Para FIXO, não se esqueça de informar também o `requested-minutes`.
+- Inclua o `driver_external_id` na URL.
+
+#### 7. Encerramento do Período de Estacionamento
+- Para encerrar, informe apenas o `parking_control_id` na URL da request apropriada.
+- Este passo encerra a sessão e permite a cobrança.
 
 ## Notificações
 
