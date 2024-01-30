@@ -63,11 +63,12 @@ Siga estes passos para testar o fluxo completo no sistema de estacionamento:
 
 #### 6. Início de um Período de Estacionamento
 - Com veículo e forma de pagamento configurados, inicie um período de estacionamento.
-- Para estacionamento **fixo**, execute a request `3.1`.
-- Para estacionamento **variável**, use a request `3.2`.
+- Para estacionamento **fixo**, execute a request `3.1` com o `driver_external_id` na URL.
+- Para estacionamento **variável**, use a request `3.2` com o `driver_external_id` na URL.
 - Informe o `period-type-id` (1 para FIXO ou 2 para VARIÁVEL).
-- Para FIXO, não se esqueça de informar também o `requested-minutes`.
-- Inclua o `driver_external_id` na URL.
+- Para testar a obrigatorioedade da duracao do estacionamento em periodo fixo, remova o parametro `requested-minutes` da
+  request `3.1`.
+- O requested-minutes tem um minumo de 60 minutos
 
 #### 7. Encerramento do Período de Estacionamento
 - Para encerrar, informe apenas o `parking_control_id` na URL da request apropriada.
