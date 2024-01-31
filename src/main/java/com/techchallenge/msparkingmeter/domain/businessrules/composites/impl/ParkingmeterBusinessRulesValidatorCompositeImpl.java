@@ -22,7 +22,7 @@ public class ParkingmeterBusinessRulesValidatorCompositeImpl implements Parkingm
     /**
      * Construtor da classe.
      *
-     * @param validators                                Lista de validadores compostos relacionados a controles de estacionamento.
+     * @param validators                                               Lista de validadores compostos relacionados a controles de estacionamento.
      * @param executeCalculationFixedAmountExpectedToBePaidUseCaseImpl Caso de uso para cálculo do valor fixo esperado a ser pago.
      */
     public ParkingmeterBusinessRulesValidatorCompositeImpl(List<ParkingmeterBusinessRulesValidatorComposite> validators,
@@ -66,6 +66,7 @@ public class ParkingmeterBusinessRulesValidatorCompositeImpl implements Parkingm
                 }
             }
         } catch (Exception e) {
+            this.exception = new RuntimeException("Erro ao validar regras de negocio", e);
             return false;
         }
 

@@ -21,10 +21,14 @@ necessário clonar e executar estas aplicações:
 1. **ms-drivers**
     - Clone: `git clone https://github.com/emerlopes/ms-drivers.git`
     - Inicialização: Siga as instruções no README do repositório para subir a aplicação.
+    - Verifique se a aplicação está rodando na porta 8080 sem erros.
+    - Pode acontecer de a aplicação não subir corretamente na primeira vez. Caso isso ocorra, tente novamente.
 
 2. **ms-payments**
     - Clone: `git clone https://github.com/emerlopes/ms-payments.git`
     - Inicialização: Siga as instruções no README do repositório para subir a aplicação.
+    - Verifique se a aplicação está rodando na porta 8081 sem erros.
+    - Pode acontecer de a aplicação não subir corretamente na primeira vez. Caso isso ocorra, tente novamente.
 
 ## Executando o Projeto
 
@@ -39,22 +43,28 @@ necessário clonar e executar estas aplicações:
 Siga estes passos para testar o fluxo completo no sistema de estacionamento:
 
 #### 1. Navegação até o Diretório do Projeto
+
 - Navegue até o diretório do projeto onde a collection do Insomnia está localizada.
 
 #### 2. Importação da Collection no Insomnia
+
 - Importe a collection disponível na pasta `misc` no Insomnia para uso.
 
 #### 3. Criação de um Condutor
+
 - **Antes de iniciar os testes**, é essencial cadastrar um condutor no sistema.
 - Execute a request `1.1 Cadastro condutor` para realizar o cadastro.
 - Este passo é **fundamental** para associar as operações de estacionamento a um usuário específico.
 
 #### 4. Registro de um Veículo
+
 - Após o cadastro do condutor, registre um veículo para ele.
 - Execute a request `1.2 Cadastro veículos`, informando o `driver_external_id` gerado anteriormente.
 - Isso associa o veículo ao condutor no sistema.
+- É possivel consultar os veiculos cadastrados com a request `1.3 Consulta condutor`.
 
 #### 5. Registro de uma Forma de Pagamento
+
 - Em seguida, registre uma forma de pagamento para o condutor.
 - Utilize a seção `2. Registro de Forma de Pagamento` na collection do Insomnia.
 - Escolha e execute uma das requests disponíveis para este fim.
@@ -62,15 +72,17 @@ Siga estes passos para testar o fluxo completo no sistema de estacionamento:
 - A forma de pagamento é crucial para os serviços de estacionamento.
 
 #### 6. Início de um Período de Estacionamento
+
 - Com veículo e forma de pagamento configurados, inicie um período de estacionamento.
 - Para estacionamento **fixo**, execute a request `3.1` com o `driver_external_id` na URL.
 - Para estacionamento **variável**, use a request `3.2` com o `driver_external_id` na URL.
 - Informe o `period-type-id` (1 para FIXO ou 2 para VARIÁVEL).
 - Para testar a obrigatorioedade da duracao do estacionamento em periodo fixo, remova o parametro `requested-minutes` da
   request `3.1`.
-- O requested-minutes tem um minumo de 60 minutos
+- O requested-minutes tem um periodo minimo de 60 minutos
 
 #### 7. Encerramento do Período de Estacionamento
+
 - Para encerrar, informe apenas o `parking_control_id` na URL da request apropriada.
 - Este passo encerra a sessão e permite a cobrança.
 

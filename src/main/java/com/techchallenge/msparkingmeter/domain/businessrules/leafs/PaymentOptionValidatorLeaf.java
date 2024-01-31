@@ -36,17 +36,24 @@ public class PaymentOptionValidatorLeaf implements ParkingmeterBusinessRulesVali
     @Override
     public boolean isValid(ParkingControlDomainEntityInput input) {
 
-        final var paymentOption = paymentsClient.findPaymentOptionByExternalDriverId(input.getExternalDriverId());
 
-        if (paymentOption.getData() == null) {
-            parkingControlValidationException = new ParkingControlValidationException("Opção de pagamento não encontrada");
-            return false;
-        }
+        try {
+            final var paymentOption = paymentsClient.findPaymentOptionByExternalDriverId(input.getExternalDriverId());
 
-        final var paymentOptionType = paymentOption.getData().getPaymentOptionType().getPaymentOptionType();
+            if (paymentOption.getData() == null) {
+                parkingControlValidationException = new ParkingControlValidationException("Forma de pagamento não encontrada para o id do motorista externo.");
+                return false;
+            }
 
-        if (paymentOptionType.equals(PaymentOptionTypeEnum.CREDIT_CARD) || paymentOptionType.equals(PaymentOptionTypeEnum.DEBIT_CARD)) {
-            parkingControlValidationException = new ParkingControlValidationException("O período de estacionamento fixo está disponível apenas para pagamentos via PIX, atualize seu método de pagamento.");
+            final var paymentOptionType = paymentOption.getData().getPaymentOptionType().getPaymentOptionType();
+
+            if (paymentOptionType.equals(PaymentOptionTypeEnum.CREDIT_CARD) || paymentOptionType.equals(PaymentOptionTypeEnum.DEBIT_CARD)) {
+                parkingControlValidationException = new ParkingControlValidationException("O período de estacionamento fixo está disponível apenas para pagamentos via PIX, atualize seu método de pagamento.");
+                return false;
+            }
+
+        } catch (Exception e) {
+            parkingControlValidationException = new ParkingControlValidationException("Forma de pagamento não encontrada para o id do motorista externo.");
             return false;
         }
 
