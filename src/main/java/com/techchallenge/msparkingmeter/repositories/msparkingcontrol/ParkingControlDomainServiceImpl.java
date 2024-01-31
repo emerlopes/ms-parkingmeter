@@ -1,5 +1,6 @@
 package com.techchallenge.msparkingmeter.repositories.msparkingcontrol;
 
+import com.techchallenge.msparkingmeter.application.exceptions.ParkingControlValidationException;
 import com.techchallenge.msparkingmeter.application.mappers.parkingcontrol.ParkingControlMapper;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityInput;
 import com.techchallenge.msparkingmeter.domain.entity.parkingcontrol.ParkingControlDomainEntityOutput;
@@ -62,7 +63,7 @@ public class ParkingControlDomainServiceImpl implements IParkingControlDomainSer
      */
     @Override
     public ParkingControlDomainEntityOutput findParkingControlById(Long id) {
-        final var entity = ParkingControlRepository.findById(id).orElseThrow();
+        final var entity = ParkingControlRepository.findById(id).orElseThrow(() -> new ParkingControlValidationException("Periodo de estacionamento não encontrado"));
 
         return ParkingControlMapper.mapToParkingControlDomainEntityOutput(entity);
     }
