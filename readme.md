@@ -83,8 +83,21 @@ Siga estes passos para testar o fluxo completo no sistema de estacionamento:
 
 #### 7. Encerramento do Período de Estacionamento
 
+> Lembre-se que 80 minutos são adicionados ao horário de encerramento, ou seja, hora atual + 80 minutos.
+> 
+> Entao, se o horario atual for 10:00, o horario de encerramento sera 11:20.
+> 
+> Caso encerre um periodo fixo previsto para 60 minutos, o horario de encerramento sera 11:20, e serao cobrados o minutos
+  excedentes. Entao as horas previstas serao calculadas dentro da tarifa fixa, somando com as horas excedentes que serao calculadas com base na tarifa variavel.
+> 
+> Caso encerre um periodo fixo previsto para 120 minutos, o horario de encerramento sera 11:20, e nao serao cobrados
+  minutos excedentes, apenas os minutos previstos na tarifa fixa.
+> 
+> Caso encerre um periodo variavel, o horario de encerramento sera 11:20 e sera cobrado a tarifa variavel.
+
 - Para encerrar, informe apenas o `parking_control_id` na URL da request apropriada.
 - Este passo encerra a sessão e permite a cobrança.
+- Os dados do recibo de pagamento são retornados na resposta, dentro do objeto `payment_receipt`.
 
 ## Notificações
 
@@ -105,8 +118,10 @@ controle do tempo de estacionamento. Existem duas formas de notificação:
 2. **Notificação Imediata para Estacionamento Variável**:
     - Em casos de estacionamento variável, a notificação é enviada de forma imediata.
     - Para fins de teste, ao encerrar o estacionamento, o sistema considera o horário de encerramento como a data e hora
-      atual acrescidas de 85 minutos. Assim, 85 minutos são adicionados à variável `parkingEndTime`, facilitando a
+      atual acrescidas de 80 minutos. Assim, 80 minutos são adicionados à variável `parkingEndTime`, facilitando a
       realização de testes da funcionalidade.
+    - Exemplo: se 60 minitos forem solicitados, o horário de encerramento sempre será 80 minutos após a data e hora atual.
+
 
 ### Importância do Cadastro Correto do Número de Telefone
 
